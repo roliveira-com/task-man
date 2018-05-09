@@ -14,7 +14,7 @@ module.exports = {
     },
 
     sessions: {
-      collection: 'Sessions',
+      collection: 'Session',
       via: 'owner'
     },
 

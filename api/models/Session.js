@@ -13,7 +13,7 @@ module.exports = {
       type: 'ref'
     },
     owner : {
-      model: 'Workers'
+      model: 'User'
     }
 
   },

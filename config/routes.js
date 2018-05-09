@@ -18,8 +18,8 @@ module.exports.routes = {
     view: 'pages/tasks/home'
   },
 
-  '/tasks/login' : 'SessionsController.login',
+  '/tasks/login' : 'AuthController.login',
 
-  '/tasks/callback': 'SessionsController.callback',
+  '/tasks/callback': 'AuthController.callback',
 
 };

@@ -8,16 +8,6 @@
 const OAuth = require('oauth').OAuth;
 const url   = require('url');
 
-const oauth = new OAuth(
-  sails.config.trelloRequestURL, 
-  sails.config.trelloAccessURL, 
-  sails.config.trelloKey, 
-  sails.config.trelloOAuthSecret, 
-  "1.0A", 
-  sails.config.trelloLoginCallback, 
-  "HMAC-SHA1"
-);
-
 module.exports = {
   
   home: function (req, res) {
@@ -25,11 +15,9 @@ module.exports = {
   },
 
   login: function(req, res){
-    req.session.oauth_secrets = {};
-    oauth.getOAuthRequestToken(function(error, token, tokenSecret, results){
-      req.session.oauth_secrets[token] = tokenSecret;
-      res.redirect(`${sails.config.trelloAuthorizeURL}?scope=read,write,account&oauth_token=${token}&name=${sails.config.trelloAppName}`);
-    });
+    sails.helpers.oauthAuthorize(req, res).then(
+      console.log('OK_DOC')
+    )
   },
 
   callback: function(req, res){
