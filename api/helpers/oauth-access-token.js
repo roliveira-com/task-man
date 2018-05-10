@@ -46,13 +46,12 @@ module.exports = {
 
   fn: async function (inputs, exits) {
 
-    const query       = url.parse(req.url, true).query;
+    const query       = url.parse(inputs.request.url, true).query;
     const token       = query.oauth_token;
     const tokenSecret = inputs.request.session.oauth_secrets[token];
     const verifier    = query.oauth_verifier;
 
-    const session;
-    const user;
+    let session_created;
 
     const oauth = new OAuth(
       sails.config.trelloRequestURL, 
@@ -65,7 +64,7 @@ module.exports = {
     );
 
     oauth.getOAuthAccessToken(token, tokenSecret, verifier, function(error, accessToken, accessTokenSecret, results){
-      session = await Session.create(
+      Session.create(
         {
           oauth: {
             accessToken: accessToken,
@@ -73,28 +72,15 @@ module.exports = {
           },
         }
       )
-    })
-
-    session.then(
-      oauth.getProtectedResource("https://api.trello.com/1/members/me", "GET", accessToken, accessTokenSecret, function(error, data, response){
-        const userData = JSON.parse(data);
-        user = await User.create({
-          trello_id: userData.id,
-          avatar_url: userData.avatarUrl || 'not specified',
-          full_name: userData.fullName,
-          initials: userData.initials,
-          user_url: userData.url,
-          username: userData.username,
-          email: userData.email  || 'not specified',
-          id_boards: userData.idBoards,
-          id_organizations: userData.idOrganizations
-        })
+      .fetch()
+      .then(function(session) {
+        sails.sockets.blast('session', {verb:"created", id: session.id, data: session});
+        return exits.success(session);
       })
-    )
-
-    user.then(
-      
-    )
+      .catch(function(error){
+        throw 'noAuth';
+      })
+    })
 
   }
 

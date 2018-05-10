@@ -14,6 +14,14 @@ module.exports.routes = {
     view: 'pages/homepage'
   },
 
+  '/tasks/manage/users': {
+    view: 'pages/tasks/users'
+  },
+
+  '/tasks/manage/sessions': {
+    view: 'pages/tasks/sessions'
+  },
+
   'GET /tasks': {
     view: 'pages/tasks/home'
   },

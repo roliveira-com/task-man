@@ -1,0 +1,75 @@
+<nav class="navbar is-primary">
+  <div class="container">
+    <div class="navbar-brand">
+      <a href="/">
+        <img src="/images/logo_rounded.png" alt="Logo da Bagaça" class="image is-48x48">
+      </a>
+      <div class="navbar-burger burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="#">Projects</a>
+        <a class="navbar-item" href="#">Tasks</a>
+        <a class="navbar-item" href="#">Users</a>
+      </div>
+      <% if(req.session.user) { %>
+      <div class="navbar-end">
+        <div class="navbar-item login-trigger has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <%= req.session.user.username %>
+          </a>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</nav>
+
+<div class="hero is-warning">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-two-thirds">
+          <div class="content">
+            <h2>Manage Data</h2>
+          </div>
+        </div>
+        <div class="column">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <table class="table" ng-app="taskman" ng-controller="manageController">
+      <thead>
+        <tr>
+          <th>Initials</th>
+          <th>Nome</th>
+          <th>Username</th>
+          <th>email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users">
+          <td>{{user.initials}}</td>
+          <td>{{user.full_name}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.email}}</td>
+          <td>
+            <button class="button is-danger" ng-click="deleteUser(user.id)">deletar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

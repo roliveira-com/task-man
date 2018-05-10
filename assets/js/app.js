@@ -1,5 +1,5 @@
-angular.module('sailsapp', []);
-angular.module('sailsapp').controller('baseCtrl', ['$scope','$http', function($scope, $http){
+angular.module('taskman', []);
+angular.module('taskman').controller('manageController', ['$scope','$http', function($scope, $http){
 
   // $http.get('/emoji').then(function(response){ 
   //   $scope.emojis = response.data;
@@ -8,27 +8,81 @@ angular.module('sailsapp').controller('baseCtrl', ['$scope','$http', function($s
   //   console.log(err)
   // })
 
-  io.socket.get('/notes', function(data){
-    $scope.notes = data;
+  io.socket.get('/user', function(data){
+    $scope.users = data;
+    console.log('USERS', data)
     $scope.$apply();
   })
 
-  $scope._findItem = function(element, index, array){
+  io.socket.get('/session', function(data){
+    $scope.sessions = data;
+    console.log('SESSIONS', data)
+    $scope.$apply();
+  })
+
+  $scope.deleteUser = function(itemId){
+    console.log('USER TO BE DELETED: ', itemId);
+    $http.delete('/user/'+itemId).then(function(response){ 
+      console.log(response.data);
+    })
+  }
+
+  $scope.deleteSession = function(itemId){
+    console.log('SESSION TO BE DELETED: ', itemId);
+    $http.delete('/session/'+itemId).then(function(response){ 
+      console.log(response.data);
+    })
+  }
+
+  $scope._findItem = function(itemId){
 
   }
 
-  io.socket.on('notes', function(event){
-    console.log(event);
+  io.socket.on('user', function(event){
+    console.log('Events User', event);
     switch (event.verb){
       case 'created':
-        $scope.notes.push(event.data);
+        $scope.users.push(event.data);
         $scope.$apply();
         break;
       case 'destroyed':
-        var deleted = $scope.notes.findIndex(function(element, index, array){
+        var deleted = $scope.users.findIndex(function(element, index, array){
           if(element.id === event.previous.id) return element;
         });
-        $scope.notes.splice(deleted, 1);
+        $scope.users.splice(deleted, 1);
+        $scope.$apply()
+        break;
+      case 'updated':
+        var deleted = $scope.users.findIndex(function(element, index, array){
+          if(element.id === event.id) return element;
+        });
+        $scope.users.splice(deleted, 1);
+        $scope.users.push(event.data);
+        $scope.$apply()
+        break;
+    }
+  })
+
+  io.socket.on('session', function(event){
+    console.log('Events Session', event);
+    switch (event.verb){
+      case 'created':
+        $scope.sessions.push(event.data);
+        $scope.$apply();
+        break;
+      case 'destroyed':
+        var deleted = $scope.sessions.findIndex(function(element, index, array){
+          if(element.id === event.previous.id) return element;
+        });
+        $scope.sessions.splice(deleted, 1);
+        $scope.$apply()
+        break;
+      case 'updated':
+        var deleted = $scope.sessions.findIndex(function(element, index, array){
+          if(element.id === event.id) return element;
+        });
+        $scope.sessions.splice(deleted, 1);
+        $scope.sessions.push(event.data);
         $scope.$apply()
         break;
     }
