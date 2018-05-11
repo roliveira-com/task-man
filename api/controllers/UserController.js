@@ -6,6 +6,7 @@
  */
 
 module.exports = { 
+  
   login: function (req, res) {
     if (!req.body) {
       req.session.error = 'Faça o login ou registre-se com o Trello logo abaixo'

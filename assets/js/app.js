@@ -1,41 +1,26 @@
 angular.module('taskman', []);
 angular.module('taskman').controller('manageController', ['$scope','$http', function($scope, $http){
 
-  // $http.get('/emoji').then(function(response){ 
-  //   $scope.emojis = response.data;
-  // })
-  // .catch(function(err){
-  //   console.log(err)
-  // })
-
   io.socket.get('/user', function(data){
     $scope.users = data;
-    console.log('USERS', data)
     $scope.$apply();
   })
 
   io.socket.get('/session', function(data){
     $scope.sessions = data;
-    console.log('SESSIONS', data)
     $scope.$apply();
   })
 
   $scope.deleteUser = function(itemId){
-    console.log('USER TO BE DELETED: ', itemId);
     $http.delete('/user/'+itemId).then(function(response){ 
       console.log(response.data);
     })
   }
 
   $scope.deleteSession = function(itemId){
-    console.log('SESSION TO BE DELETED: ', itemId);
     $http.delete('/session/'+itemId).then(function(response){ 
       console.log(response.data);
     })
-  }
-
-  $scope._findItem = function(itemId){
-
   }
 
   io.socket.on('user', function(event){
@@ -94,10 +79,8 @@ angular.module('taskman').controller('boardsController', ['$scope','$http', func
 
   $scope.boards = null;
 
-  $http.get('http://localhost:1337/tasks/boards').then(function(response){ 
-    console.log(response.data)
+  $http.get('/tasks/boards').then(function(response){ 
     $scope.boards = response.data;
-    console.log($scope.boards)
   })
   .catch(function(err){
     console.log(err)
