@@ -22,11 +22,16 @@ module.exports.routes = {
     view: 'pages/tasks/sessions'
   },
 
-  'GET /tasks': {
-    view: 'pages/tasks/home'
+  '/logout': {
+    controller: 'AuthController',
+    action: 'logout'
   },
 
-  '/tasks/login' : 'AuthController.login',
+  'GET /tasks': 'AuthController.home',
+
+  '/tasks/login' : 'UserController.login',
+
+  '/tasks/register': 'UserController.register',
 
   '/tasks/callback': 'AuthController.callback',
 

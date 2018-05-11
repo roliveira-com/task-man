@@ -44,7 +44,7 @@ module.exports = {
   sync: false,
 
 
-  fn: async function (inputs, exits) {
+  fn: async (inputs, exits) => {
 
     const oauth = new OAuth(
       sails.config.trelloRequestURL, 
@@ -58,7 +58,7 @@ module.exports = {
 
     inputs.request.session.oauth_secrets = {};
 
-    oauth.getOAuthRequestToken(function(error, token, tokenSecret, results){
+    oauth.getOAuthRequestToken((error, token, tokenSecret, results) => {
       if (error) throw 'noAuth';
 
       inputs.request.session.oauth_secrets[token] = tokenSecret;

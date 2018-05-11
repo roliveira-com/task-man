@@ -11,12 +11,6 @@ module.exports = {
     res.view('pages/tasks/home'); 
   },
 
-  login: function(req, res){
-    sails.helpers.oauthAuthorize(req, res).then(
-      console.log('OK_DOC')
-    )
-  },
-
   callback: function(req, res){
     sails.helpers.oauthAccessToken(req, res).then(token => {
       sails.helpers.oauthUserCreate(token).then(user => {
@@ -24,6 +18,11 @@ module.exports = {
         res.redirect('/tasks')
       })
     })
+  },
+
+  logout: function (req, res) {
+    req.session.destroy();
+    res.redirect('/tasks')
   }
 
 };
