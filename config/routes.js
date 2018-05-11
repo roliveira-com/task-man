@@ -27,6 +27,11 @@ module.exports.routes = {
     action: 'logout'
   },
 
+  'GET /tasks/boards': {
+    controller: 'UserController',
+    action: 'boards'
+  },
+
   'GET /tasks': 'AuthController.home',
 
   '/tasks/login' : 'UserController.login',

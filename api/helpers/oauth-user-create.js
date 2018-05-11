@@ -49,7 +49,7 @@ module.exports = {
     oauth.getProtectedResource("https://api.trello.com/1/members/me", "GET", inputs.token.oauth.accessToken, inputs.token.oauth.accessTokenSecret, function(error, data, response){
       const userData = JSON.parse(data);
       User.create({
-        trello_id       : userData.id,
+        trello_id       : userData.id,  
         sessions        : inputs.token.id,
         avatar_url      : userData.avatarUrl || 'not specified',
         full_name       : userData.fullName,

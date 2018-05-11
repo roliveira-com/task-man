@@ -89,3 +89,18 @@ angular.module('taskman').controller('manageController', ['$scope','$http', func
   })
 
 }]);
+
+angular.module('taskman').controller('boardsController', ['$scope','$http', function($scope, $http){
+
+  $scope.boards = null;
+
+  $http.get('http://localhost:1337/tasks/boards').then(function(response){ 
+    console.log(response.data)
+    $scope.boards = response.data;
+    console.log($scope.boards)
+  })
+  .catch(function(err){
+    console.log(err)
+  })
+
+}]);

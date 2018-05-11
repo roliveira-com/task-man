@@ -48,7 +48,7 @@ module.exports = {
 
     const query       = url.parse(inputs.request.url, true).query;
     const token       = query.oauth_token;
-    const tokenSecret = inputs.request.session.oauth_secrets[token];
+    const tokenSecret = inputs.request.session.oauth[token];
     const verifier    = query.oauth_verifier;
 
     let session_created;

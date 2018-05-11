@@ -49,7 +49,7 @@
 
 <section class="section">
   <div class="container">
-    <table class="table" ng-app="taskman" ng-controller="manageController">
+    <table class="table" ng-controller="manageController">
       <thead>
         <tr>
           <th>ID</th>
@@ -64,7 +64,7 @@
           <td>{{session.owner.username}}</td>
           <td>{{session.createdAt | date: 'd/M/yyyy h:mm'}}</td>
           <td>
-            <button class="button is-danger" ng-click="deleteSession(session.id)">deletar</button>
+            <button class="button is-danger" ng-click="deleteSession(session.id)"><span class="delete is-large"></span></button>
           </td>
         </tr>
       </tbody>

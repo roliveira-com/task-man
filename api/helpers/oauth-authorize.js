@@ -56,12 +56,12 @@ module.exports = {
       "HMAC-SHA1"
     );
 
-    inputs.request.session.oauth_secrets = {};
+    inputs.request.session.oauth = {};
 
     oauth.getOAuthRequestToken((error, token, tokenSecret, results) => {
       if (error) throw 'noAuth';
 
-      inputs.request.session.oauth_secrets[token] = tokenSecret;
+      inputs.request.session.oauth[token] = tokenSecret;
 
       inputs.response.redirect(`${sails.config.trelloAuthorizeURL}?scope=read,write,account&oauth_token=${token}&name=${sails.config.trelloAppName}`);
 
