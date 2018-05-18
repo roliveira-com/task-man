@@ -27,9 +27,14 @@ module.exports.routes = {
     action: 'getLists'
   },
 
-  '/tasks/updates' :{
-    controller: 'UserController',
-    action: 'updates'
+  '/tasks/lists/subscribe/:listid' :{
+    controller: 'BoardsController',
+    action: 'subscribe'
+  },
+
+  'POST /tasks/webhooks/callback' : {
+    controller: 'BoardsController',
+    action: 'webhook'
   },
 
   '/logout': {
