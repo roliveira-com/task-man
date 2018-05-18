@@ -22,6 +22,16 @@ module.exports.routes = {
     view: 'pages/tasks/sessions'
   },
 
+  '/tasks/lists/:boardid' :{
+    controller: 'BoardsController',
+    action: 'getLists'
+  },
+
+  '/tasks/updates' :{
+    controller: 'UserController',
+    action: 'updates'
+  },
+
   '/logout': {
     controller: 'AuthController',
     action: 'logout'

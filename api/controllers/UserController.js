@@ -46,6 +46,10 @@ module.exports = {
       if(response.error) return res.status(500).send({error : response.error});
       res.status(200).send(response.data);
     })
+  },
+
+  updates: function(req, res){
+    console.log(req.body);
   }
 
 };

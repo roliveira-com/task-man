@@ -1,0 +1,52 @@
+<nav class="navbar is-primary">
+  <div class="container">
+    <div class="navbar-brand">
+      <a href="/">
+        <img src="/images/logo_rounded.png" alt="Logo da Bagaça" class="image is-48x48">
+      </a>
+      <div class="navbar-burger burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="#">Projects</a>
+        <a class="navbar-item" href="#">Tasks</a>
+        <a class="navbar-item" href="#">Users</a>
+      </div>
+      <% if(req.session.user) { %>
+        <div class="navbar-end">
+          <div class="navbar-item login-trigger has-dropdown is-hoverable">
+            <a class="navbar-link">
+              <%= req.session.user.username %>
+            </a>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <table class="table"  >
+      <thead>
+        <tr>
+          <th>Nome da Lista</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(lists, function(list){ %>
+        <tr>
+          <td><%= list.name %></td>
+          <td><a class="button is-danger" href="/task/list/subscribe/<%= list.id %>">Fazer Inscrição</a></td>
+        </tr>
+        <%})%>
+      </tbody>
+    </table>
+  </div>
+</section>
