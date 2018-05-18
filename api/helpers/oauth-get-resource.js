@@ -50,6 +50,10 @@ module.exports = {
       sails.config.trelloLoginCallback, 
       "HMAC-SHA1"
     );
+    
+    if(!inputs.request.session.oauth){
+      throw 'noAuth';
+    }
 
     oauth.getProtectedResource(inputs.url, "GET", inputs.request.session.oauth.accessToken, inputs.request.session.oauth.accessTokenSecret, function(error, data, response){
       const resource = {
