@@ -1,0 +1,53 @@
+<%- partial('../../layouts/header') %>
+
+<%- partial('./partials/subnav') %>  
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-two-thirds">
+        <form>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Título</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <input class="input" type="text" placeholder="seja breve...mas preciso">
+                </div>
+                <p class="help">
+                  Obrigatório
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Descrição</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <textarea class="textarea" placeholder="Caso queria infromar mais detales sobre a lista"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field is-grouped is-grouped-right">
+            <p class="control">
+              <a href="/tasks" class="button is-light">
+                Cancelar
+              </a>
+            </p>
+            <p class="control">
+              <button class="button is-primary">
+                Cadastrar Lista
+              </button>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

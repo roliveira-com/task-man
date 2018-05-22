@@ -1,5 +1,5 @@
-angular.module('taskman', []);
-angular.module('taskman').controller('manageController', ['$scope','$http', function($scope, $http){
+var app = angular.module('taskman', []);
+app.controller('manageController', ['$scope','$http', function($scope, $http){
 
   io.socket.get('/user', function(data){
     $scope.users = data;
@@ -75,7 +75,7 @@ angular.module('taskman').controller('manageController', ['$scope','$http', func
 
 }]);
 
-angular.module('taskman').controller('boardsController', ['$scope','$http', function($scope, $http){
+app.controller('boardsController', ['$scope','$http', function($scope, $http){
 
   $scope.boards = null;
 

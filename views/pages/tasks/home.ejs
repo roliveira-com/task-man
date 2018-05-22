@@ -6,7 +6,9 @@
 <% } %>
 
 <% if(session.user) { %>
-<%- partial('./partials/subnav') %>
+
+<%- partial('./partials/subnav') %>  
+
 <section class="section" ng-controller="boardsController">
   <div class="container" ng-if="boards">
     <div class="columns is-multiline is-mobile">
@@ -30,11 +32,12 @@
             </div>
           </div>
           <footer class="card-footer">
-            <a href="/tasks/lists/{{ board.id }}" class="card-footer-item">Ver Listas</a>
+            <a class="card-footer-item" href="/tasks/lists/{{ board.id }}" >Ver Listas</a>
           </footer>
         </div>      
       </div>
     </div>
   </div>
 </section>  
+
 <% } %>
