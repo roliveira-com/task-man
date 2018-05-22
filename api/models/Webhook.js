@@ -19,8 +19,12 @@ module.exports = {
     /**
      * Informa para qual Lista ou Card da dentro aplicação este webhook irase relacionar 
      */
-    targetModel: {
-      type: 'string'
+    targetListModel: {
+      model: 'List'
+    },
+
+    targetCardModel: {
+      model: 'Card'
     },
     /**
      * Dado vindo do Trello. diz o id da Lista, Card ou Board que o Trello

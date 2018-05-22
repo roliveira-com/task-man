@@ -27,7 +27,7 @@ module.exports = {
 
     feeds : {
       collection: 'Webhook',
-      via: 'targetModel'
+      via: 'targetListModel'
     },
 
     cards :{

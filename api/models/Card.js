@@ -15,6 +15,11 @@ module.exports = {
 
     listId: {
       model: 'List'
+    },
+
+    feeds: {
+      collection: 'Webhook',
+      via: 'targetCardModel'
     }
 
   },
