@@ -15,11 +15,13 @@ module.exports.routes = {
   },
 
   '/tasks/manage/users': {
-    view: 'pages/tasks/management/users'
+    controller: 'ManageController',
+    action: 'manageUsers'
   },
 
   '/tasks/manage/sessions': {
-    view: 'pages/tasks/management/sessions'
+    controller: 'ManageController',
+    action: 'manageSessions'
   },
 
   '/tasks/new/list' :{
