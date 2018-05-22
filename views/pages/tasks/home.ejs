@@ -1,100 +1,12 @@
-<nav class="navbar is-primary">
-  <div class="container">
-    <div class="navbar-brand">
-      <a href="/">
-        <img src="/images/logo_rounded.png" alt="Logo da Bagaça" class="image is-48x48">
-      </a>
-      <div class="navbar-burger burger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-
-    <div class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item" href="#">Projects</a>
-        <a class="navbar-item" href="#">Tasks</a>
-        <a class="navbar-item" href="#">Users</a>
-      </div>
-      <% if(req.session.user) { %>
-      <div class="navbar-end">
-        <div class="navbar-item login-trigger has-dropdown is-hoverable">
-          <a class="navbar-link">
-            <%= req.session.user.username %>
-          </a>
-        </div>
-      </div>
-      <% } %>
-    </div>
-  </div>
-</nav>
+<%- partial('../../layouts/header') %>
 
 
 <% if(!session.user) { %>
-<div class="hero is-warning bg-warning-pattern">
-  <div class="hero-body">
-    <div class="container">
-      <div class="columns is-vcentered">
-        <div class="column is-1">
-          <img src="/images/Sorte.svg">
-        </div>
-        <div class="column is-7">
-          <div class="content">
-            <h2>Sign-in and enjoy everything of Project Man</h2>
-            <p>A simple and versatile project manage tool.</p>
-          </div>
-        </div>
-        <div class="column">
-          <% if(session.error) { %>
-          <div class="notification is-danger">
-            <button class="delete"></button>
-            <%= session.error %>
-          </div>
-          <% } %>
-          <div class="login-form">
-              <form action="/tasks/login" method="POST">
-                <div class="field">
-                  <!-- <label class="label">e-mail</label> -->
-                  <div class="control">
-                    <input class="input" name="email" type="text" placeholder="e-mail">
-                  </div>
-                </div>
-                <div class="field">
-                  <!-- <label class="label">password</label> -->
-                  <div class="control">
-                    <input class="input" name="password" type="password" placeholder="password">
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="control">
-                    <button class="button is-primary">Logar</button>
-                  </div>
-                </div>
-              </form>
-              <hr>
-            <div class="field is-grouped is-grouped-right">
-              <p class="control">
-                <a href="/tasks/register" class="button is-primary">
-                  Sign-in with your Trello Account
-                </a>
-              </p>
-              <!-- <p class="control">
-                <a class="button is-light">
-                  Cancel
-                </a>
-              </p> -->
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
+  <%- partial('./partials/login-form') %>
 <% } %>
 
 <% if(session.user) { %>
+<%- partial('./partials/subnav') %>
 <section class="section" ng-controller="boardsController">
   <div class="container" ng-if="boards">
     <div class="columns is-multiline is-mobile">
@@ -118,7 +30,7 @@
             </div>
           </div>
           <footer class="card-footer">
-            <a href="/tasks/lists/{{ board.id }}" class="card-footer-item">subscribe</a>
+            <a href="/tasks/lists/{{ board.id }}" class="card-footer-item">Ver Listas</a>
           </footer>
         </div>      
       </div>

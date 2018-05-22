@@ -15,26 +15,26 @@ module.exports.routes = {
   },
 
   '/tasks/manage/users': {
-    view: 'pages/tasks/users'
+    view: 'pages/tasks/management/users'
   },
 
   '/tasks/manage/sessions': {
-    view: 'pages/tasks/sessions'
+    view: 'pages/tasks/management/sessions'
   },
 
   '/tasks/lists/:boardid' :{
     controller: 'BoardsController',
-    action: 'getLists'
+    action: 'getTrelloLists'
   },
 
   '/tasks/lists/subscribe/:listid' :{
-    controller: 'BoardsController',
+    controller: 'WebhookController',
     action: 'subscribe'
   },
 
   'POST /tasks/webhooks/callback' : {
-    controller: 'BoardsController',
-    action: 'webhook'
+    controller: 'WebhookController',
+    action: 'callback'
   },
 
   '/logout': {
@@ -43,13 +43,13 @@ module.exports.routes = {
   },
 
   'GET /tasks/boards': {
-    controller: 'UserController',
-    action: 'boards'
+    controller: 'BoardsController',
+    action: 'getTrelloBoards'
   },
 
   'GET /tasks': 'AuthController.home',
 
-  '/tasks/login' : 'UserController.login',
+  '/tasks/login' : 'AuthController.login',
 
   '/tasks/register': 'UserController.register',
 

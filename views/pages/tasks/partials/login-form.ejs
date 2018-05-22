@@ -1,0 +1,60 @@
+<div class="hero is-warning bg-warning-pattern">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-1">
+          <img src="/images/sketchbook.svg">
+        </div>
+        <div class="column is-7">
+          <div class="content">
+            <h2>Task Man - the ultimate Trello cards manager</h2>
+            <p>All your Trello cards on one single place. Right away</p>
+          </div>
+        </div>
+        <div class="column">
+          <% if(session.error) { %>
+            <div class="notification is-danger">
+              <button class="delete"></button>
+              <%= session.error %>
+            </div>
+            <% } %>
+              <div class="login-form">
+                <form action="/tasks/login" method="POST">
+                  <div class="field">
+                    <!-- <label class="label">e-mail</label> -->
+                    <div class="control">
+                      <input class="input" name="email" type="text" placeholder="e-mail">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <!-- <label class="label">password</label> -->
+                    <div class="control">
+                      <input class="input" name="password" type="password" placeholder="password">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="control">
+                      <button class="button is-primary">Log in</button>
+                    </div>
+                  </div>
+                </form>
+                <hr>
+                <div class="field is-grouped is-grouped-right">
+                  <p class="control">
+                    <a href="/tasks/register" class="button is-primary">
+                      Sign-up with your Trello Account
+                    </a>
+                  </p>
+                  <!-- <p class="control">
+                <a class="button is-light">
+                  Cancel
+                </a>
+              </p> -->
+                </div>
+              </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
