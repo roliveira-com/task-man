@@ -30,13 +30,13 @@ module.exports = {
       User.find({ email: req.body.email }).then(user => {
         if (user.length === 0) {
           req.session.error = 'Usuário não encontrado!'
-          res.view('pages/tasks/home');
+          res.redirect('/tasks');
           return;
         } else {
           Session.find({ owner: user.id }).then(session => {
             req.session.user = user[0]
             req.session.oauth = session[0].oauth
-            res.view('pages/tasks/home');
+            res.redirect('/tasks');
             return
           })
         }

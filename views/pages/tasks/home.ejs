@@ -12,7 +12,7 @@
 
 
 <section class="section" ng-controller="listController">
-  <!-- <div class="container" ng-show="listRegistered">
+  <div class="container" ng-show="listRegistered">
     <div class="columns">
       <div class="column is-6 is-offset-3">
         <div class="notification" ng-class="{'is-danger': listRegistered.error, 'is-primary': listRegistered.success}">
@@ -21,11 +21,11 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
   <div class="container" ng-show="show_form">
     <div class="columns">
       <div class="column is-6 is-offset-3">
-        <form name="newListForm" ng-submit="newListRegister()" novalidate>
+        <form name="newListForm" ng-submit="addList()" novalidate>
           <div class="field is-horizontal">
             <div class="field-label is-normal">
               <label class="label">Título*</label>
@@ -73,13 +73,49 @@
   <div class="container" ng-show="lists">
     <div class="columns is-multiline is-mobile">
       <div class="column is-4" ng-repeat="list in lists">
-        <div class="card">
+        <div class="card card-column">
+          <div class="card-screen" ng-class="{'is-active':listOptions}">
+            <div class="card-screen__header">
+              <a class="card-screen__icon" ng-click="toggleListOptions($event)"><i class="icon icon-arrow-left" aria-hidden="true"></i></a>
+              <p class="card-screen__title">Incluir Listas</p>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <form>
+                  <input type="hidden" value="{{list.id}}">
+                  <div class="field">
+                    <div class="control">
+                      <div class="select is-block is-medium">
+                        <select>
+                          <option>Select dropdown</option>
+                          <option>With options</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="control">
+                      <div class="select is-block is-medium">
+                        <select disabled>
+                          <option>Select dropdown</option>
+                          <option>With options</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="control">
+                    <button class="button is-primary is-medium is-block">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
           <header class="card-header">
             <p class="card-header-title">
               {{list.title}}
             </p>
             <span href="#" class="card-header-icon" aria-label="more options">
-              <div class="dropdown is-hoverable is-right">
+              <div class="dropdown is-right is-hoverable">
                 <div class="dropdown-trigger">
                   <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu">
                     <span class="icon is-small">
@@ -89,7 +125,7 @@
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                   <div class="dropdown-content">
-                    <a href="#" class="dropdown-item">
+                    <a ng-click="toggleListOptions($event)" class="dropdown-item">
                       Inscrever listas
                     </a>
                     <span class="dropdown-divider"></span>

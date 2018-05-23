@@ -9,21 +9,76 @@
   background-image: url('/images/pattern_2.png');
 }
 
+.button.is-block{
+  width: 100%;
+}
+
 .dropdown-trigger button span::after{
-    border: 3px solid transparent;
-    border-radius: 2px;
-    border-right: 0;
-    border-top: 0;
-    content: " ";
-    display: block;
-    height: 0.625em;
-    margin-top: -0.4375em;
-    pointer-events: none;
-    position: absolute;
-    top: 50%;
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    -webkit-transform-origin: center;
-    transform-origin: center;
-    width: 0.625em;
+  border: 3px solid transparent;
+  border-radius: 2px;
+  border-right: 0;
+  border-top: 0;
+  content: " ";
+  display: block;
+  height: 0.625em;
+  margin-top: -0.4375em;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: center;
+  transform-origin: center;
+  width: 0.625em;
+}
+
+.select.is-block{
+  width: 100%;
+}
+
+.select.is-block select{
+  width: 100%;
+}
+
+.card.card-column {
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.card-screen {
+  position: absolute;
+  background-color: #FFF;
+  width: 100%;
+  height: 100%;
+  z-index: 25;
+  transform: translateX(100%);
+  transition: transform ease-out .3s;
+}
+
+.card-screen.is-active{
+  transform: translateX(0%);
+  transition: transform ease-out .3s;
+}
+
+.card-screen .card-screen__header{
+  background-color: none;
+  align-items: stretch;
+  display: flex;
+}
+
+.card-screen .card-screen__title {
+  align-items: center;
+  color: #363636;
+  display: flex;
+  flex-grow: 1;
+  font-weight: 700;
+  padding: 0.75rem;
+}
+
+.card-screen .card-screen__icon {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem;
 }

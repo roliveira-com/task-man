@@ -14,6 +14,10 @@ module.exports.routes = {
     view: 'pages/homepage'
   },
 
+  'GET /tasks/boards': {
+    view: 'pages/tasks/boards'
+  },
+
   '/tasks/manage/users': {
     controller: 'ManageController',
     action: 'manageUsers'
@@ -33,6 +37,11 @@ module.exports.routes = {
     action: 'addList'
   },
 
+  'DELETE /tasks/list/:id': {
+    controller: 'ListController',
+    action: 'removeList'
+  },
+
   'GET /tasks/lists/:boardid' :{
     controller: 'BoardsController',
     action: 'getTrelloLists'
@@ -43,7 +52,7 @@ module.exports.routes = {
     action: 'subscribe'
   },
 
-  'POST /tasks/webhooks/callback' : {
+  'POST /tasks/webhooks/:id' : {
     controller: 'WebhookController',
     action: 'callback'
   },
@@ -53,7 +62,7 @@ module.exports.routes = {
     action: 'logout'
   },
 
-  'GET /tasks/boards': {
+  'GET /api/tasks/boards': {
     controller: 'BoardsController',
     action: 'getTrelloBoards'
   },

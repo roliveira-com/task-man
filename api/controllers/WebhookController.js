@@ -21,26 +21,72 @@ module.exports = {
    */
 
   subscribe: function (req, res) {
-    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.param('listid')}&description=Webhook-para-o-listId:${req.param('listid')}"&callbackURL=https://biz-analytics.herokuapp.com/api/trello/webhooks`).then(response => {
-      if (response.error) {
-        console.log('ERRO NO POST DO WEBHOOK', response.error)
-        return res.status(500).send({ error: response.error })
-      };
-      console.log('RETORNO DO WEBHOOK POST', response.data)
-      res.view('pages/tasks/lists', {
-        lists: false,
-        subscribed: JSON.parse(response.data) || 'subscribed'
-      });
+    /**
+     * Objeto que deve ser postado para criar o webhook:
+     * {
+     *    targetListModel - ID da lista ou card a qual este webhook pertence dentro da aplicação
+     *    targeCardModel
+     *    modelId - ID do model no Trello para que o webhook sera criado
+     *    description - descrição básica do webhook
+     * }
+     */
+    Webhook.create({
+      targetListModel : req.body.targetListModel  || null,
+      targeCardModel  : req.body.targeCardModel   || null,
+      idModel         : req.body.modelId,
+      description     : req.body.description,
+      active          : false
+    })
+    .fetch()
+    .then(webhook => {
+      console.log('PRE-CADASTRO DE WEBHOOK FEITO COM O ID: ', webhook.id)
+      sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://localhost:1337/tasks/webhook/${webhook.id}`).then(response => {
+      // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://task-man.herokuapp.com/webhook/${webhook.id}`).then(response => {
+        if (response.error) {
+          console.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
+          return res.status(500).send({ error: response.error })
+        };
+        console.log('WEBHOOK CRIADO COM SUCESSO NA API DO TRELLO', JSON.parse(response.data))
+        Webhook.update(
+          {
+            id: response.data.id
+          }
+        )
+        .set(
+          {
+            trelloId: req.body.id,
+            callbackURL: req.body.callbackURL,
+            active: req.body.active
+          }
+        )
+        .fetch()
+        .then(webhook => {
+          console.log('UPDATE DO WEBHOOK NA BASE', webhook);
+          res.status(200).send(webhook)
+        })
+        .catch(error => {
+          console.log('ERRO DO UPDATE DO WEBHOOK NA BASE', error);
+          res.status(500).send({
+            error: error,
+            message: 'Não foi possível fazer a assinatura agora'
+          })
+        });
+      })
+    })
+    .catch(error => {
+      res.status(500).send({
+        error: error,
+        message: 'Não foi possível fazer a assinatura agora'
+      })
     })
   },
 
   callback: function (req, res) {
-    console.log('RETORNO DO CALLBACK DO WEBHOOK POST', req.body);
-    res.status(200).send({ status: req.body })
-    // res.status(200).view('pages/tasks/lists',{
-    //   lists : false,
-    //   subscribed: req.body || 'subscribed'
-    // });
+    /**
+     * A URL a ser configurada no hosts deve ser: /tasks/webhook/:id
+     */
+    console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
+
   }
 
 };

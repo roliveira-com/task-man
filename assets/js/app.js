@@ -77,7 +77,7 @@ app.controller('manageController', ['$scope','$http', function($scope, $http){
 
 app.controller('boardsController', ['$scope','$http', function($scope, $http){
 
-  $http.get('/tasks/boards').then(function(response){ 
+  $http.get('/api/tasks/boards').then(function(response){ 
     $scope.boards = response.data;
   })
   .catch(function(err){
@@ -88,19 +88,25 @@ app.controller('boardsController', ['$scope','$http', function($scope, $http){
 
 app.controller('listController', ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {
   $rootScope.show_form = false;
+  $rootScope.listOptions = false;
 
   $rootScope.toggleNewListForm = function () {
     $rootScope.show_form = !$rootScope.show_form;
-  },
+  }
+
+  $rootScope.toggleListOptions = function(event){
+    console.log(event.target.parentElement.parentElement)
+    $rootScope.listOptions = !$rootScope.listOptions;
+  }
 
   $http.get('/list').then(function (result) {
     $scope.lists = result.data
   })
 
-  $scope.newListRegister = function () {
+  $scope.addList = function () {
     $http.post('/tasks/list', $scope.newList).then(function (result) {
       console.log(result);
-      $scope.lists = result.data;
+      $scope.lists.push(result.data);
       $rootScope.toggleNewListForm()
     })
     .catch(function (error) {
@@ -109,10 +115,15 @@ app.controller('listController', ['$rootScope', '$scope', '$http', function ($ro
   }
 
   $scope.deleteList = function (list_id) {
-    console.log(list_id);
-    // http.delete('/tasks/list/', list_id).then(function(result) {
-      
-    // })
+    $http.delete('/tasks/list/'+list_id).then(function(result) {
+      var deleted = $scope.lists.findIndex(function(element, index, array){
+        if(element.id === list_id) return element;
+      });
+      $scope.lists.splice(deleted, 1);
+    })
+    .catch(function(error){
+      $scope.listRegistered = error.data;
+    })
   }
 
 }]);

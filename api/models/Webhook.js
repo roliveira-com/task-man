@@ -17,7 +17,7 @@ module.exports = {
       type: 'string'
     },
     /**
-     * Informa para qual Lista ou Card da dentro aplicação este webhook irase relacionar 
+     * Informa para qual Lista ou Card da dentro aplicação este webhook ira se relacionar 
      */
     targetListModel: {
       model: 'List'
@@ -31,13 +31,6 @@ module.exports = {
      * enviara POST para o callback URL sempre que houver alterações
      */
     idModel :{
-      type: 'string'
-    },
-    /**
-     * Sera criado no momento que o webhook for resgistrado na aplicação. 
-     * Informa de forma mais clara de este webhook é de uma Lista ou Card
-     */
-    idModelType: {
       type: 'string'
     },
 
