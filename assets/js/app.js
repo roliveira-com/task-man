@@ -77,8 +77,6 @@ app.controller('manageController', ['$scope','$http', function($scope, $http){
 
 app.controller('boardsController', ['$scope','$http', function($scope, $http){
 
-  $scope.boards = null;
-
   $http.get('/tasks/boards').then(function(response){ 
     $scope.boards = response.data;
   })
@@ -101,10 +99,9 @@ app.controller('listController', ['$rootScope', '$scope', '$http', function ($ro
 
   $scope.newListRegister = function () {
     $http.post('/tasks/list', $scope.newList).then(function (result) {
-      $scope.lists.push(result.data);
-      $scope.$apply()
-      $rootScope.show_form = !$rootScope.show_form;
-      console.log(result.data)
+      console.log(result);
+      $scope.lists = result.data;
+      $rootScope.toggleNewListForm()
     })
     .catch(function (error) {
       $scope.listRegistered = error.data
