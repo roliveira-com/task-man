@@ -87,3 +87,35 @@ app.controller('boardsController', ['$scope','$http', function($scope, $http){
   })
 
 }]);
+
+app.controller('listController', ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {
+  $rootScope.show_form = false;
+
+  $rootScope.toggleNewListForm = function () {
+    $rootScope.show_form = !$rootScope.show_form;
+  },
+
+  $http.get('/list').then(function (result) {
+    $scope.lists = result.data
+  })
+
+  $scope.newListRegister = function () {
+    $http.post('/tasks/list', $scope.newList).then(function (result) {
+      $scope.lists.push(result.data);
+      $scope.$apply()
+      $rootScope.show_form = !$rootScope.show_form;
+      console.log(result.data)
+    })
+    .catch(function (error) {
+      $scope.listRegistered = error.data
+    })
+  }
+
+  $scope.deleteList = function (list_id) {
+    console.log(list_id);
+    // http.delete('/tasks/list/', list_id).then(function(result) {
+      
+    // })
+  }
+
+}]);

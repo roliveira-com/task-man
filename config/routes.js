@@ -24,11 +24,16 @@ module.exports.routes = {
     action: 'manageSessions'
   },
 
-  '/tasks/new/list' :{
+  'GET /tasks/list' :{
     view: 'pages/tasks/addlist'
   },
 
-  '/tasks/lists/:boardid' :{
+  'POST /tasks/list': {
+    controller: 'ListController',
+    action: 'addList'
+  },
+
+  'GET /tasks/lists/:boardid' :{
     controller: 'BoardsController',
     action: 'getTrelloLists'
   },

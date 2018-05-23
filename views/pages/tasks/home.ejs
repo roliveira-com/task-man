@@ -7,14 +7,117 @@
 
 <% if(session.user) { %>
 
-<%- partial('./partials/subnav') %>  
+<%- partial('./partials/subnav') %>
 
-<section class="section" ng-controller="boardsController">
+
+
+<section class="section" ng-controller="listController">
+  <!-- <div class="container" ng-show="listRegistered">
+    <div class="columns">
+      <div class="column is-6 is-offset-3">
+        <div class="notification" ng-class="{'is-danger': listRegistered.error, 'is-primary': listRegistered.success}">
+          <button class="delete"></button>
+          {{listRegistered.message}}
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="container" ng-show="show_form">
+    <div class="columns">
+      <div class="column is-6 is-offset-3">
+        <form name="newListForm" ng-submit="newListRegister()" novalidate>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Título*</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <input class="input" ng-class="{'is-danger': newListForm.title.$invalid  && newListForm.title.$touched}" type="text" ng-model="newList.title" name="title" required placeholder="seja breve...mas preciso">
+                </div>
+                <p class="help is-danger" ng-show="newListForm.title.$invalid && newListForm.title.$touched">
+                  Obrigatório
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" name="description">Descrição</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <textarea class="textarea" ng-model="newList.description" placeholder="Caso queria infromar mais detales sobre a lista"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field is-grouped is-grouped-right">
+            <p class="control">
+              <a href="/tasks" class="button is-light">
+                Cancelar
+              </a>
+            </p>
+            <p class="control">
+              <button class="button is-primary" ng-disabled="newListForm.$invalid" type="submit">
+                Cadastrar Lista
+              </button>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ng-show="lists">
+    <div class="columns is-multiline is-mobile">
+      <div class="column is-4" ng-repeat="list in lists">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              {{list.title}}
+            </p>
+            <span href="#" class="card-header-icon" aria-label="more options">
+              <div class="dropdown is-hoverable is-right">
+                <div class="dropdown-trigger">
+                  <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span class="icon is-small">
+                      <i class="icon icon-arrow-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a href="#" class="dropdown-item">
+                      Inscrever listas
+                    </a>
+                    <span class="dropdown-divider"></span>
+                    <a ng-click="deleteList(list.id)" class="dropdown-item">
+                      deletar lista
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              {{list.description}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" ng-controller="listController">
   <div class="container" ng-if="boards">
     <div class="columns is-multiline is-mobile">
       <div class="column is-one-quarter" ng-repeat="board in boards">
         <div class="card">
-          <header class="card-header" style="background-color: {{board.prefs.backgroundTopColor}}">
+          <header class="card-header">
             <p class="card-header-title">
               Board
             </p>
