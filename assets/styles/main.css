@@ -5,6 +5,11 @@
   box-shadow: none;
 }
 
+.input.is-hidden,
+.textarea.is-hidden{
+  display: none;
+}
+
 .bg-warning-pattern{
   background-image: url('/images/pattern_2.png');
 }
@@ -40,9 +45,9 @@
   width: 100%;
 }
 
-.card.card-column {
+.card.has-card-options {
   overflow: hidden;
-  min-height: 420px;
+  min-height: 380px;
 }
 
 .card-screen {

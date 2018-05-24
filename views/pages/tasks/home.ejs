@@ -63,7 +63,7 @@
               <button class="button is-primary" ng-disabled="newListForm.$invalid" type="submit">
                 Cadastrar Lista
               </button>
-            </p>
+            </p>  
           </div>
         </form>
       </div>
@@ -73,7 +73,7 @@
   <div class="container" ng-show="lists">
     <div class="columns is-multiline is-mobile">
       <div class="column is-4" ng-repeat="list in lists">
-        <div class="card card-column">
+        <div class="card has-card-options">
           <div class="card-screen" ng-class="{'is-active':listOptions}">
             <div class="card-screen__header">
               <a class="card-screen__icon" ng-click="toggleListOptions($event)"><i class="icon icon-arrow-left" aria-hidden="true"></i></a>
@@ -81,14 +81,13 @@
             </div>
             <div class="card-content">
               <div class="content">
-                <form>
-                  <input type="hidden" value="{{list.id}}">
+                <form name="webhookForm" ng-submit="addWebhook(webhook)" novalidate>
+                  <input type="hidden" type="text" name="listId" ng-model="webhook.listId" value="{{list.id}}" ng-init="webhook.listId=list.id">
                   <div class="field">
                     <div class="control">
                       <div class="select is-block is-medium">
-                        <select>
-                          <option>Select dropdown</option>
-                          <option>With options</option>
+                        <select ng-model="webhook.boardId" ng-change="getListsfromBoard($event)">
+                          <option ng-repeat="board in boardsOptions" value="{{board.id}}">{{board.name}}</option>
                         </select>
                       </div>
                     </div>
@@ -96,15 +95,14 @@
                   <div class="field">
                     <div class="control">
                       <div class="select is-block is-medium">
-                        <select disabled>
-                          <option>Select dropdown</option>
-                          <option>With options</option>
+                        <select ng-model="webhook.modelId">
+                          <option ng-repeat="list in listOptions track by list.id" value="{{list.id}}">{{list.name}}</option>                          
                         </select>
                       </div>
                     </div>
                   </div>
                   <div class="control">
-                    <button class="button is-primary is-medium is-block">Submit</button>
+                    <button type="submit" class="button is-primary is-medium is-block">Submit</button>
                   </div>
                 </form>
               </div>

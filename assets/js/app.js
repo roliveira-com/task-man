@@ -86,17 +86,48 @@ app.controller('boardsController', ['$scope','$http', function($scope, $http){
 
 }]);
 
+app.controller('cardOptionsController', ['$scope','$http',function($scope, $http){
+  $scope.listOptions = false;
+  $scope
+
+  $scope.toggleListOptions = function (event) {
+    $scope.listOptions = !$scope.listOptions;
+  }
+
+  $http.get('/api/tasks/boards').then(function (response) {
+    $scope.boardsOptions = response.data;
+  })
+  .catch(function (err) {
+    console.log(err)
+  })
+
+  $scope.addWebhook = function (data) {
+    console.log(data)
+  }
+
+  $scope.getListsfromBoard = function () {
+      $http.get('/tasks/lists/' + $scope.webhook.boardId).then(function (result) {
+      console.log(result.data)
+      $scope.listOptions = result.data;
+    })
+  }
+}])
+
+app.directive('hasCardOptions', function ($http) {
+  return {
+    restrict: 'C',
+    controller: 'cardOptionsController',
+    link: function ($scope, element, attrs) {
+      
+    }
+  }
+})
+
 app.controller('listController', ['$rootScope', '$scope', '$http', function ($rootScope, $scope, $http) {
   $rootScope.show_form = false;
-  $rootScope.listOptions = false;
 
   $rootScope.toggleNewListForm = function () {
     $rootScope.show_form = !$rootScope.show_form;
-  }
-
-  $rootScope.toggleListOptions = function(event){
-    console.log(event.target.parentElement.parentElement)
-    $rootScope.listOptions = !$rootScope.listOptions;
   }
 
   $http.get('/list').then(function (result) {

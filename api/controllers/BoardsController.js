@@ -10,10 +10,11 @@ module.exports = {
   getTrelloLists: function (req, res) {
     sails.helpers.oauthGetResource(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`).then(response => {
       if (response.error) return res.status(500).send({ error: response.error });
-      res.view('pages/tasks/lists',{
-        lists : JSON.parse(response.data),
-        subscribed : false
-      });
+      res.status(200).send(JSON.parse(response.data))
+      // res.view('pages/tasks/lists',{
+      //   lists : JSON.parse(response.data),
+      //   subscribed : false
+      // });
     })
   },
 
