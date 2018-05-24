@@ -1,0 +1,45 @@
+<%- partial('../../../layouts/header') %>
+
+<div class="hero is-warning">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-two-thirds">
+          <div class="content">
+            <h2>Manage Data</h2>
+          </div>
+        </div>
+        <div class="column">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <table class="table is-fullwidth" ng-controller="manageController">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Lista/Card Relacionado</th>
+          <th>URL de callback</th>
+          <th>Criação do webhook</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="webhook in webhooks" ng-cloak>
+          <td>{{webhook.id}}</td>
+          <td>{{webhook.targetListModel.name || 'Atualize a página para ver'}}</td>
+          <td>{{webhook.callbackURL}}</td>          
+          <td>{{webhook.createdAt | date: 'd/M/yyyy h:mm'}}</td>
+          <td>
+            <button class="button is-danger" ng-click="deleteWebhook(webhook.id)"><span class="delete is-medium"></span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

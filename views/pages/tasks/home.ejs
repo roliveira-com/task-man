@@ -80,13 +80,16 @@
               <p class="card-screen__title">Incluir Listas</p>
             </div>
             <div class="card-content">
+              <div class="notification" ng-show="notification" ng-class="{'is-danger':notification.error,'is-primary':!notification.error}">
+                {{notification.message}}
+              </div>
               <div class="content">
                 <form name="webhookForm" ng-submit="addWebhook(webhook)" novalidate>
-                  <input type="hidden" type="text" name="listId" ng-model="webhook.listId" value="{{list.id}}" ng-init="webhook.listId=list.id">
+                  <input type="hidden" type="text" name="listId" ng-model="webhook.targetListModel" value="{{list.id}}" ng-init="webhook.targetListModel=list.id">
                   <div class="field">
                     <div class="control">
-                      <div class="select is-block is-medium">
-                        <select ng-model="webhook.boardId" ng-change="getListsfromBoard($event)">
+                      <div class="select is-block">
+                        <select ng-model="webhook.boardId" ng-change="getListsfromBoard($event)" placeholder="selecione um board" required>
                           <option ng-repeat="board in boardsOptions" value="{{board.id}}">{{board.name}}</option>
                         </select>
                       </div>
@@ -94,15 +97,15 @@
                   </div>
                   <div class="field">
                     <div class="control">
-                      <div class="select is-block is-medium">
-                        <select ng-model="webhook.modelId">
-                          <option ng-repeat="list in listOptions track by list.id" value="{{list.id}}">{{list.name}}</option>                          
+                      <div class="select is-block" ng-class="{'is-loading':isLoading}">
+                        <select ng-model="webhook.modelId" ng-disabled="!selectOptions || isLoading" required>
+                          <option ng-repeat="list in selectOptions track by list.id" value="{{list.id}}">{{list.name}}</option>                          
                         </select>
                       </div>
                     </div>
                   </div>
                   <div class="control">
-                    <button type="submit" class="button is-primary is-medium is-block">Submit</button>
+                    <button type="submit" class="button is-primary is-block" ng-disabled="webhookForm.$invalid">Submit</button>
                   </div>
                 </form>
               </div>
@@ -110,7 +113,7 @@
           </div>
           <header class="card-header">
             <p class="card-header-title">
-              {{list.title}}
+              {{list.name}}
             </p>
             <span href="#" class="card-header-icon" aria-label="more options">
               <div class="dropdown is-right is-hoverable">

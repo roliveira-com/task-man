@@ -1,4 +1,19 @@
 var app = angular.module('taskman', []);
+app.factory('csfrTokenInjector', [function() {  
+  var injector = {
+      request: function(config) {
+          if(config.method === "POST" || config.method === "PUT" || config.method === "DELETE"){
+            config.data._csrf = window.SAILS_LOCALS._csrf;
+          }
+          return config;
+      }
+  };
+  return injector;
+}]);
+app.config(['$httpProvider', function($httpProvider) {  
+  $httpProvider.interceptors.push('csfrTokenInjector');
+}]);
+
 app.controller('manageController', ['$scope','$http', function($scope, $http){
 
   io.socket.get('/user', function(data){
@@ -11,6 +26,17 @@ app.controller('manageController', ['$scope','$http', function($scope, $http){
     $scope.$apply();
   })
 
+  io.socket.get('/webhook', function(data){
+    $scope.webhooks = data;
+    $scope.$apply();
+  })
+
+  $scope.getListTitle = function(listId){
+    $http.get('/list/'+listId).then(function(response){ 
+     return response.data.description
+    })
+  }
+
   $scope.deleteUser = function(itemId){
     $http.delete('/user/'+itemId).then(function(response){ 
       console.log(response.data);
@@ -19,6 +45,12 @@ app.controller('manageController', ['$scope','$http', function($scope, $http){
 
   $scope.deleteSession = function(itemId){
     $http.delete('/session/'+itemId).then(function(response){ 
+      console.log(response.data);
+    })
+  }
+
+  $scope.deleteWebhook = function(itemId){
+    $http.delete('/webhook/'+itemId).then(function(response){ 
       console.log(response.data);
     })
   }
@@ -73,6 +105,31 @@ app.controller('manageController', ['$scope','$http', function($scope, $http){
     }
   })
 
+  io.socket.on('webhook', function(event){
+    console.log('Events Webhook', event);
+    switch (event.verb){
+      case 'created':
+        $scope.webhooks.push(event.data);
+        $scope.$apply();
+        break;
+      case 'destroyed':
+        var deleted = $scope.webhooks.findIndex(function(element, index, array){
+          if(element.id === event.previous.id) return element;
+        });
+        $scope.webhooks.splice(deleted, 1);
+        $scope.$apply()
+        break;
+      case 'updated':
+        var deleted = $scope.webhooks.findIndex(function(element, index, array){
+          if(element.id === event.id) return element;
+        });
+        $scope.webhooks.splice(deleted, 1);
+        $scope.webhooks.push(event.data);
+        $scope.$apply()
+        break;
+    }
+  })
+
 }]);
 
 app.controller('boardsController', ['$scope','$http', function($scope, $http){
@@ -86,9 +143,11 @@ app.controller('boardsController', ['$scope','$http', function($scope, $http){
 
 }]);
 
-app.controller('cardOptionsController', ['$scope','$http',function($scope, $http){
-  $scope.listOptions = false;
-  $scope
+app.controller('cardOptionsController', ['$scope','$http','$rootScope',function($scope, $http, $rootScope){
+
+  $scope.notification = false;
+
+  $scope.isLoading = false;
 
   $scope.toggleListOptions = function (event) {
     $scope.listOptions = !$scope.listOptions;
@@ -102,13 +161,19 @@ app.controller('cardOptionsController', ['$scope','$http',function($scope, $http
   })
 
   $scope.addWebhook = function (data) {
-    console.log(data)
+    $http.post('/tasks/lists/subscribe', data).then(function(result){
+      $scope.notification = result.data;
+    }).catch(function(error){
+      console.error(error)
+      $scope.notification = error.data;
+    })
   }
 
   $scope.getListsfromBoard = function () {
-      $http.get('/tasks/lists/' + $scope.webhook.boardId).then(function (result) {
-      console.log(result.data)
-      $scope.listOptions = result.data;
+    $scope.isLoading = true;
+    $http.get('/tasks/lists/' + $scope.webhook.boardId).then(function (result) {
+      $scope.isLoading = false;
+      $scope.selectOptions = result.data;
     })
   }
 }])

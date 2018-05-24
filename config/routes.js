@@ -28,6 +28,11 @@ module.exports.routes = {
     action: 'manageSessions'
   },
 
+  '/tasks/manage/webhooks': {
+    controller: 'ManageController',
+    action: 'manageWebhooks'
+  },
+
   'GET /tasks/list' :{
     view: 'pages/tasks/addlist'
   },
@@ -47,7 +52,7 @@ module.exports.routes = {
     action: 'getTrelloLists'
   },
 
-  '/tasks/lists/subscribe/:listid' :{
+  'POST /tasks/lists/subscribe' :{
     controller: 'WebhookController',
     action: 'subscribe'
   },

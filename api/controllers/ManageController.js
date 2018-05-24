@@ -13,6 +13,10 @@ module.exports = {
 
   manageUsers: function(req, res){
     res.view('pages/tasks/management/users')
+  },
+
+  manageWebhooks: function(req, res){
+    res.view('pages/tasks/management/webhooks')
   }
 
 }

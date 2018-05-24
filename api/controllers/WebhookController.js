@@ -34,17 +34,18 @@ module.exports = {
       targetListModel : req.body.targetListModel  || null,
       targeCardModel  : req.body.targeCardModel   || null,
       idModel         : req.body.modelId,
-      description     : req.body.description,
+      description     : `webhook para o model ${req.body.modelId}`,
       active          : false
     })
     .fetch()
     .then(webhook => {
       console.log('PRE-CADASTRO DE WEBHOOK FEITO COM O ID: ', webhook.id)
+      sails.sockets.blast('webhook', {verb:"created", id: webhook.id, data: webhook});
       sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://localhost:1337/tasks/webhook/${webhook.id}`).then(response => {
       // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://task-man.herokuapp.com/webhook/${webhook.id}`).then(response => {
         if (response.error) {
           console.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
-          return res.status(500).send({ error: response.error })
+          return res.status(500).send({ error: response.error, message: 'Não foi possível contatar o Trello para linkar esta lista' })
         };
         console.log('WEBHOOK CRIADO COM SUCESSO NA API DO TRELLO', JSON.parse(response.data))
         Webhook.update(
@@ -61,8 +62,11 @@ module.exports = {
         )
         .fetch()
         .then(webhook => {
-          console.log('UPDATE DO WEBHOOK NA BASE', webhook);
-          res.status(200).send(webhook)
+          console.log(`CADASTRO COMPLETO DO WEBHOOK ${webhook.id} FEITO COM SUCESSO`);
+          res.status(200).send({
+            error: false,
+            message: 'Lista adicionada com sucesso'
+          })
         })
         .catch(error => {
           console.log('ERRO DO UPDATE DO WEBHOOK NA BASE', error);
@@ -74,6 +78,7 @@ module.exports = {
       })
     })
     .catch(error => {
+      console.log('ERRO NO PRÉ-CADASTRO DO WEBHOOK NA BASE', error);
       res.status(500).send({
         error: error,
         message: 'Não foi possível fazer a assinatura agora'
@@ -85,6 +90,7 @@ module.exports = {
     /**
      * A URL a ser configurada no hosts deve ser: /tasks/webhook/:id
      */
+    console.log('ID DO WEBHOOK NA BASE LOCAL', req.param('id'));
     console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
 
   }

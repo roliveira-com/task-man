@@ -9,7 +9,7 @@ module.exports = {
   
   addList: function (req, res) {
     List.create({
-      title: req.body.title,
+      name: req.body.title,
       description: req.body.description,
       owner: req.session.user ? req.session.user.id : null
     })
