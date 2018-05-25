@@ -21,69 +21,41 @@ module.exports = {
    */
 
   subscribe: function (req, res) {
-    /**
-     * Objeto que deve ser postado para criar o webhook:
-     * {
-     *    targetListModel - ID da lista ou card a qual este webhook pertence dentro da aplicação
-     *    targeCardModel
-     *    modelId - ID do model no Trello para que o webhook sera criado
-     *    description - descrição básica do webhook
-     * }
-     */
-    Webhook.create({
-      targetListModel : req.body.targetListModel  || null,
-      targeCardModel  : req.body.targeCardModel   || null,
-      idModel         : req.body.modelId,
-      description     : `webhook para o model ${req.body.modelId}`,
-      active          : false
-    })
-    .fetch()
-    .then(webhook => {
-      console.log('PRE-CADASTRO DE WEBHOOK FEITO COM O ID: ', webhook.id)
-      sails.sockets.blast('webhook', {verb:"created", id: webhook.id, data: webhook});
-      sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://localhost:1337/tasks/webhook/${webhook.id}`).then(response => {
-      // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://task-man.herokuapp.com/webhook/${webhook.id}`).then(response => {
-        if (response.error) {
-          console.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
-          return res.status(500).send({ error: response.error, message: 'Não foi possível contatar o Trello para linkar esta lista' })
-        };
-        console.log('WEBHOOK CRIADO COM SUCESSO NA API DO TRELLO', JSON.parse(response.data))
-        Webhook.update(
-          {
-            id: response.data.id
-          }
-        )
-        .set(
-          {
-            trelloId: req.body.id,
-            callbackURL: req.body.callbackURL,
-            active: req.body.active
-          }
-        )
-        .fetch()
-        .then(webhook => {
-          console.log(`CADASTRO COMPLETO DO WEBHOOK ${webhook.id} FEITO COM SUCESSO`);
-          res.status(200).send({
-            error: false,
-            message: 'Lista adicionada com sucesso'
-          })
+    // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://task-man.herokuapp.com/webhook/${req.body.targetListModel}`).then(response => {
+    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://localhost:1337/tasks/webhook/${req.body.targetListModel}`).then(response => {
+      if (response.error) {
+        sails.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
+        return res.status(500).send({ error: response.error, message: 'Não foi possível inscrever a lista agora, tente mais tarde' })
+      };
+      let webhookModel = JSON.parse(response.data);
+      sails.log('WEBHOOK CRIADO COM SUCESSO NA API DO TRELLO', webhookModel)
+      Webhook.create({
+        targetListModel: req.body.targetListModel || null,
+        targeCardModel: req.body.targeCardModel || null,
+        idModel: req.body.modelId,
+        description: `webhook para o model ${req.body.modelId}`,
+        active: webhookModel.active,
+        trelloId: webhookModel.id,
+        callbackURL: webhookModel.callbackURL,
+      })
+      .fetch()
+      .then(webhook => {
+        sails.sockets.blast('webhook', { verb: "created", id: webhook.id, data: webhook });
+        sails.log(`CADASTRO DO WEBHOOK ${webhook.id} FEITO COM SUCESSO`);
+        res.status(200).send({
+          error: false,
+          message: 'Lista adicionada com sucesso'
         })
-        .catch(error => {
-          console.log('ERRO DO UPDATE DO WEBHOOK NA BASE', error);
-          res.status(500).send({
-            error: error,
-            message: 'Não foi possível fazer a assinatura agora'
-          })
-        });
+      })
+      .catch(error => {
+        sails.log('ERRO NO CADASTRO DO WEBHOOK NA BASE', error);
+        res.status(500).send({
+          error: error,
+          message: 'O cadastro do webhook foi feito no Trello mas não em nossa base'
+        })
       })
     })
-    .catch(error => {
-      console.log('ERRO NO PRÉ-CADASTRO DO WEBHOOK NA BASE', error);
-      res.status(500).send({
-        error: error,
-        message: 'Não foi possível fazer a assinatura agora'
-      })
-    })
+
   },
 
   callback: function (req, res) {

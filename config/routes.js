@@ -42,7 +42,7 @@ module.exports.routes = {
     action: 'addList'
   },
 
-  'DELETE /tasks/list/:id': {
+  'POST /tasks/list/remove': {
     controller: 'ListController',
     action: 'removeList'
   },

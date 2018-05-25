@@ -26,8 +26,9 @@ module.exports = {
   },
 
   removeList: function(req, res){
+    console.log('BODY DO request DELETE', req.body)
     List.destroy({
-      id: req.param('id')
+      id: req.body.id
     })
     .fetch()
     .then(list => {

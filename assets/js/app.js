@@ -2,8 +2,9 @@ var app = angular.module('taskman', []);
 app.factory('csfrTokenInjector', [function() {  
   var injector = {
       request: function(config) {
-          if(config.method === "POST" || config.method === "PUT" || config.method === "DELETE"){
-            config.data._csrf = window.SAILS_LOCALS._csrf;
+          if(config.method === "POST" || config.method === "PUT"){
+            config.data._csrf = window.SAILS_LOCALS._csrf; 
+            console.log('OBJETO REQUEST ALTERADO', config);         
           }
           return config;
       }
@@ -211,7 +212,7 @@ app.controller('listController', ['$rootScope', '$scope', '$http', function ($ro
   }
 
   $scope.deleteList = function (list_id) {
-    $http.delete('/tasks/list/'+list_id).then(function(result) {
+    $http.post('/tasks/list/remove',{id:list_id}).then(function(result) {
       var deleted = $scope.lists.findIndex(function(element, index, array){
         if(element.id === list_id) return element;
       });
