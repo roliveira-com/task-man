@@ -1,7 +1,7 @@
 <nav class="navbar is-primary">
   <div class="container">
     <div class="navbar-brand">
-      <a href="/tasks">
+      <a href="/">
         <img src="/images/logo_rounded.png" alt="Logo da Bagaça" class="image is-48x48">
       </a>
       <div class="navbar-burger burger">
@@ -22,13 +22,13 @@
               <%= req.session.user.username %>
             </a>
             <div class="navbar-dropdown is-boxed">
-              <a class="navbar-item" href="/tasks/manage/sessions">
+              <a class="navbar-item" href="/manage/sessions">
                 Manage Sessions
               </a>
-              <a class="navbar-item" href="/tasks/manage/users">
+              <a class="navbar-item" href="/manage/users">
                 Manage Users
               </a>
-              <a class="navbar-item" href="/tasks/manage/webhooks">
+              <a class="navbar-item" href="/manage/webhooks">
                 Manage Webhooks
               </a>
               <hr class="navbar-divider">

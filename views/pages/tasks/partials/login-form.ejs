@@ -19,7 +19,7 @@
             </div>
             <% } %>
               <div class="login-form">
-                <form action="/tasks/login" method="POST">
+                <form action="/login" method="POST">
                   <input type="hidden" name="_csrf" value="<%= _csrf %>" />
                   <div class="field">
                     <!-- <label class="label">e-mail</label> -->
@@ -27,12 +27,12 @@
                       <input class="input" name="email" type="text" placeholder="e-mail">
                     </div>
                   </div>
-                  <div class="field">
-                    <!-- <label class="label">password</label> -->
+                  <!-- <div class="field">
+                    <label class="label">password</label>
                     <div class="control">
                       <input class="input" name="password" type="password" placeholder="password">
                     </div>
-                  </div>
+                  </div> -->
                   <div class="field">
                     <div class="control">
                       <button class="button is-primary">Log in</button>
@@ -42,7 +42,7 @@
                 <hr>
                 <div class="field is-grouped is-grouped-right">
                   <p class="control">
-                    <a href="/tasks/register" class="button is-primary">
+                    <a href="/register" class="button is-primary">
                       Sign-up with your Trello Account
                     </a>
                   </p>

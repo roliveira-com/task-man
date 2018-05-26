@@ -14,8 +14,16 @@ module.exports.policies = {
 
   ManageController :{
 
-    manageSessions: 'isLogged',
-    manageUsers: 'isLogged'
+    manageSessions  : 'isLogged',
+    manageUsers     : 'isLogged',
+    manageWebhooks  : 'isLogged'
+
+  },
+
+  BoardsController : {
+
+    home            : 'isLogged',
+    getTrelloLists  : 'isLogged'
 
   }
 
