@@ -24,19 +24,7 @@ module.exports = {
   datastores: {
 
     default: {
-      /****************************************************************************
-      *                                                                           *
-      * More adapter-specific options                                             *
-      *                                                                           *
-      * > For example, for some hosted PostgreSQL providers (like Heroku), the    *
-      * > extra `ssl: true` option is mandatory and must be provided.             *
-      *                                                                           *
-      * More info:                                                                *
-      * https://sailsjs.com/config/datastores                                     *
-      *                                                                           *
-      ****************************************************************************/
       // ssl: true,
-
       adapter: 'sails-mongo',
       url: process.env.MONGODB_URI
 
@@ -58,9 +46,11 @@ module.exports = {
   security: {
 
     cors: {
-      // allowOrigins: [
-      //   'https://example.com',
-      // ]
+      allRoutes: true,
+      allowOrigins: '*',
+      allowCredentials: false,
+      allowRequestHeaders: 'content-type,x-xsrf-token',
+      allowResponseHeaders: 'content-type,x-xsrf-token'
     },
 
   },
@@ -83,12 +73,9 @@ module.exports = {
 
   },
 
-
   log: {
     level: 'debug'
   },
-
-
 
   http: {
 
@@ -97,17 +84,6 @@ module.exports = {
 
   },
 
-
-
-  /**************************************************************************
-  *                                                                         *
-  * Lift the server on port 80.                                             *
-  * (if deploying behind a proxy, or to a PaaS like Heroku or Deis, you     *
-  * probably don't need to set a port here, because it is oftentimes        *
-  * handled for you automatically.  If you are not sure if you need to set  *
-  * this, just try deploying without setting it and see if it works.)       *
-  *                                                                         *
-  ***************************************************************************/
   // port: 80,
 
   custom: {
