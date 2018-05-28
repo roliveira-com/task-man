@@ -33,7 +33,7 @@ app.controller('cardOptionsController', ['$scope', '$http', function ($scope, $h
   }
 }])
 
-app.directive('hasCardOptions', function ($http) {
+app.directive('hasCardOptions', ['$http', function ($http) {
   return {
     restrict: 'C',
     controller: 'cardOptionsController',
@@ -41,4 +41,4 @@ app.directive('hasCardOptions', function ($http) {
 
     }
   }
-})
+}])
