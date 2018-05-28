@@ -125,7 +125,7 @@ module.exports.routes = {
   'HEAD POST /webhooks/:id' : {
     controller: 'WebhookController',
     action: 'callback',
-    csfr: false
+    csrf: false
   },
 
   'GET /api/v1/boards': {
