@@ -122,9 +122,10 @@ module.exports.routes = {
     action: 'subscribe'
   },
 
-  'POST /webhooks/:id' : {
+  'HEAD POST /webhooks/:id' : {
     controller: 'WebhookController',
-    action: 'callback'
+    action: 'callback',
+    csfr: false
   },
 
   'GET /api/v1/boards': {
