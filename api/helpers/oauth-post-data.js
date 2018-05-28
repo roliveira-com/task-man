@@ -44,8 +44,8 @@ module.exports = {
     const oauth = new OAuth(
       sails.config.custom.trelloRequestURL, 
       sails.config.custom.trelloAccessURL, 
-      sails.config.custom.trelloKey, 
-      sails.config.custom.trelloOAuthSecret, 
+      process.env.TRELLO_KEY, 
+      process.env.TRELLO_OAUTH_SECRET, 
       "1.0A", 
       sails.config.custom.trelloLoginCallback, 
       "HMAC-SHA1"

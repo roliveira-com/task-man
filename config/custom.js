@@ -15,6 +15,6 @@ module.exports.custom = {
   trelloAuthorizeURL      :    'https://trello.com/1/OAuthAuthorizeToken',
   trelloAppName           :    'Task Man',
   trelloLoginCallback     :    'http://localhost:1337/callback',
-  webhookCallback         :    'http://localhost:1337/webhook'
+  webhookCallback         :    'http://localhost:1337/webhook/'
 
 };

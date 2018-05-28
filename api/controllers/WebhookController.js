@@ -52,8 +52,7 @@ module.exports = {
    */
 
   subscribe: function (req, res) {
-    // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://task-man.herokuapp.com/webhook/${req.body.targetListModel}`).then(response => {
-    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://localhost:1337/webhook/${req.body.targetListModel}`).then(response => {
+    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=${sails.config.custom.webhookCallback}${req.body.targetListModel}`).then(response => {
       if (response.error) {
         sails.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
         return res.status(500).send({ error: response.error, message: 'Não foi possível inscrever a lista agora, tente mais tarde' })
