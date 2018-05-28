@@ -54,12 +54,12 @@ module.exports = {
     let session_created;
 
     const oauth = new OAuth(
-      sails.config.trelloRequestURL, 
-      sails.config.trelloAccessURL, 
-      sails.config.trelloKey, 
-      sails.config.trelloOAuthSecret, 
+      sails.config.custom.trelloRequestURL, 
+      sails.config.custom.trelloAccessURL, 
+      process.env.TRELLO_KEY, 
+      process.env.TRELLO_OAUTH_SECRET, 
       "1.0A", 
-      sails.config.trelloLoginCallback, 
+      sails.config.custom.trelloLoginCallback, 
       "HMAC-SHA1"
     );
 

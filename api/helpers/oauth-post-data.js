@@ -42,12 +42,12 @@ module.exports = {
   fn: async function (inputs, exits) {
 
     const oauth = new OAuth(
-      sails.config.trelloRequestURL, 
-      sails.config.trelloAccessURL, 
-      sails.config.trelloKey, 
-      sails.config.trelloOAuthSecret, 
+      sails.config.custom.trelloRequestURL, 
+      sails.config.custom.trelloAccessURL, 
+      sails.config.custom.trelloKey, 
+      sails.config.custom.trelloOAuthSecret, 
       "1.0A", 
-      sails.config.trelloLoginCallback, 
+      sails.config.custom.trelloLoginCallback, 
       "HMAC-SHA1"
     );
     
