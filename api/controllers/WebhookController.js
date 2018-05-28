@@ -95,6 +95,8 @@ module.exports = {
     console.log('ID DO WEBHOOK NA BASE LOCAL', req.param('id'));
     console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
 
+    res.status(200).send({error: false, data: 'ok'})
+
   }
 
 };

@@ -93,7 +93,7 @@ module.exports = {
     trelloAuthorizeURL      :    'https://trello.com/1/OAuthAuthorizeToken',
     trelloAppName           :    'Task Man',
     trelloLoginCallback     :    'https://roliveira-taskman.herokuapp.com/callback',
-    webhookCallback         :    'https://roliveira-taskman.herokuapp.com/webhook'
+    webhookCallback         :    'https://roliveira-taskman.herokuapp.com/webhooks'
 
   },
 };
