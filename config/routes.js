@@ -130,7 +130,7 @@ module.exports.routes = {
     csrf: true
   },
 
-  'HEAD POST /webhooks/:id' : {
+  '/webhooks/:id' : {
     controller: 'WebhookController',
     action: 'callback',
     csrf: false
