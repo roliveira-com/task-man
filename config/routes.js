@@ -15,17 +15,19 @@ module.exports.routes = {
    */
   '/': {
     controller: 'AuthController',
-    action: 'home'
+    action: 'home',
   },
 
   '/login': {
     controller: 'AuthController',
-    action: 'login'
+    action: 'login',
+    csrf: true
   },
 
   '/register':{
     controller: 'UserController',
-    action: 'register'
+    action: 'register',
+    csrf: true
   },
 
   '/callback': {
@@ -40,27 +42,27 @@ module.exports.routes = {
 
   'GET /boards': {
     controller: 'BoardsController',
-    action: 'home'
+    action: 'home',
   },
 
   'GET /lists/:boardid': {
     controller: 'BoardsController',
-    action: 'getTrelloLists'
+    action: 'getTrelloLists',
   },
 
   'GET /manage/users': {
     controller: 'ManageController',
-    action: 'manageUsers'
+    action: 'manageUsers',
   },
 
   'GET /manage/sessions': {
     controller: 'ManageController',
-    action: 'manageSessions'
+    action: 'manageSessions',
   },
 
   'GET /manage/webhooks': {
     controller: 'ManageController',
-    action: 'manageWebhooks'
+    action: 'manageWebhooks',
   },
 
   /**
@@ -69,57 +71,63 @@ module.exports.routes = {
 
   'GET /api/v1/lists' :{
     controller: 'ListController',
-    action: 'getLists'
+    action: 'getLists',
   },
 
   'GET /api/v1/users': {
     controller: 'UserController',
-    action: 'getUsers'
+    action: 'getUsers',
   },
 
   'POST /api/v1/user/delete': {
     controller: 'UserController',
-    action: 'deleteUser'
+    action: 'deleteUser',
+    csrf: true
   },
 
   'GET /api/v1/sessions': {
     controller: 'AuthController',
-    action: 'getSessions'
+    action: 'getSessions',
   },
 
   'POST /api/v1/session/delete': {
     controller: 'AuthController',
-    action: 'deleteSession'
+    action: 'deleteSession',
+    csrf: true
   },
 
   'GET /api/v1/webhooks': {
     controller: 'WebhookController',
-    action: 'getWebhooks'
+    action: 'getWebhooks',
   },
 
   'POST /api/v1/webhook/delete': {
     controller: 'WebhookController',
-    action: 'deleteWebhook'
+    action: 'deleteWebhook',
+    csrf: true
   },
 
   'POST /api/v1/list/create': {
     controller: 'ListController',
-    action: 'addList'
+    action: 'addList',
+    csrf: true
   },
 
   'POST /api/v1/list/remove': {
     controller: 'ListController',
-    action: 'removeList'
+    action: 'removeList',
+    csrf: true
   },
 
   'GET /api/v1/lists/:boardid' :{
     controller: 'BoardsController',
-    action: 'getTrelloLists'
+    action: 'getTrelloLists',
   },
 
   'POST /api/v1/list/subscribe' :{
     controller: 'WebhookController',
-    action: 'subscribe'
+    action: 'subscribe',
+    csrf: true
   },
 
   'HEAD POST /webhooks/:id' : {
@@ -130,7 +138,7 @@ module.exports.routes = {
 
   'GET /api/v1/boards': {
     controller: 'BoardsController',
-    action: 'getTrelloBoards'
+    action: 'getTrelloBoards',
   },
 
 };
