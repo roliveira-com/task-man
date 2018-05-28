@@ -7,6 +7,37 @@
 
 module.exports = {
 
+  getWebhooks: function (req, res) {
+    Webhook.find()
+      .then(lists => {
+        res.status(200).send(lists);
+      })
+      .catch(error => {
+        res.status(500).send({
+          error: error,
+          message: 'Não foi possível obter os webhooks agora'
+        })
+      })
+  },
+
+  deleteWebhook: function (req, res) {
+    Webhook.destroy({ id: req.body.id })
+      .fetch()
+      .then(webhook => {
+        sails.sockets.blast('webhook', { verb: "destroyed", id: webhook.id, previous: webhook });
+        res.status(200).send({
+          error: false,
+          message: 'Webhook deletado com sucesso'
+        });
+      })
+      .catch(error => {
+        res.status(500).send({
+          error: error,
+          message: 'Não foi possível deletar o webhook agora'
+        })
+      })
+  },
+
   /**
    * O Callback de webhooks do Trello não funciona com localhost
    *
@@ -22,7 +53,7 @@ module.exports = {
 
   subscribe: function (req, res) {
     // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://task-man.herokuapp.com/webhook/${req.body.targetListModel}`).then(response => {
-    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://localhost:1337/tasks/webhook/${req.body.targetListModel}`).then(response => {
+    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://localhost:1337/webhook/${req.body.targetListModel}`).then(response => {
       if (response.error) {
         sails.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
         return res.status(500).send({ error: response.error, message: 'Não foi possível inscrever a lista agora, tente mais tarde' })

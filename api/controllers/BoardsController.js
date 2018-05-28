@@ -6,6 +6,10 @@
  */
 
 module.exports = {
+
+  home: function (req, res) {
+    res.view('pages/tasks/boards');
+  },
   
   getTrelloLists: function (req, res) {
     sails.helpers.oauthGetResource(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`).then(response => {

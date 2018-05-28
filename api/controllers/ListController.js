@@ -6,6 +6,19 @@
  */
 
 module.exports = {
+
+  getLists: function (req, res){
+    List.find({owner:req.session.user.id})
+    .then(lists =>{
+      res.status(200).send(lists);
+    })
+    .catch(error => {
+      res.status(500).send({
+        error: error,
+        message: 'Não foi possível obter as listas agora'
+      })
+    })
+  },
   
   addList: function (req, res) {
     List.create({
@@ -26,7 +39,6 @@ module.exports = {
   },
 
   removeList: function(req, res){
-    console.log('BODY DO request DELETE', req.body)
     List.destroy({
       id: req.body.id
     })

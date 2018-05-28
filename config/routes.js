@@ -10,55 +10,26 @@
 
 module.exports.routes = {
 
+  /**
+   * Rotas de view
+   */
   '/': {
-    view: 'pages/homepage'
+    controller: 'AuthController',
+    action: 'home'
   },
 
-  'GET /tasks/boards': {
-    view: 'pages/tasks/boards'
+  '/login': {
+    controller: 'AuthController',
+    action: 'login'
   },
 
-  '/tasks/manage/users': {
-    controller: 'ManageController',
-    action: 'manageUsers'
+  '/register':{
+    controller: 'UserController',
+    action: 'register'
   },
 
-  '/tasks/manage/sessions': {
-    controller: 'ManageController',
-    action: 'manageSessions'
-  },
-
-  '/tasks/manage/webhooks': {
-    controller: 'ManageController',
-    action: 'manageWebhooks'
-  },
-
-  'GET /tasks/list' :{
-    view: 'pages/tasks/addlist'
-  },
-
-  'POST /tasks/list': {
-    controller: 'ListController',
-    action: 'addList'
-  },
-
-  'POST /tasks/list/remove': {
-    controller: 'ListController',
-    action: 'removeList'
-  },
-
-  'GET /tasks/lists/:boardid' :{
-    controller: 'BoardsController',
-    action: 'getTrelloLists'
-  },
-
-  'POST /tasks/lists/subscribe' :{
-    controller: 'WebhookController',
-    action: 'subscribe'
-  },
-
-  'POST /tasks/webhooks/:id' : {
-    controller: 'WebhookController',
+  '/callback': {
+    controller: 'AuthController',
     action: 'callback'
   },
 
@@ -67,17 +38,98 @@ module.exports.routes = {
     action: 'logout'
   },
 
-  'GET /api/tasks/boards': {
+  'GET /boards': {
+    controller: 'BoardsController',
+    action: 'home'
+  },
+
+  'GET /lists/:boardid': {
+    controller: 'BoardsController',
+    action: 'getTrelloLists'
+  },
+
+  'GET /manage/users': {
+    controller: 'ManageController',
+    action: 'manageUsers'
+  },
+
+  'GET /manage/sessions': {
+    controller: 'ManageController',
+    action: 'manageSessions'
+  },
+
+  'GET /manage/webhooks': {
+    controller: 'ManageController',
+    action: 'manageWebhooks'
+  },
+
+  /**
+   * Rotas da API
+   */
+
+  'GET /api/v1/lists' :{
+    controller: 'ListController',
+    action: 'getLists'
+  },
+
+  'GET /api/v1/users': {
+    controller: 'UserController',
+    action: 'getUsers'
+  },
+
+  'POST /api/v1/user/delete': {
+    controller: 'UserController',
+    action: 'deleteUser'
+  },
+
+  'GET /api/v1/sessions': {
+    controller: 'AuthController',
+    action: 'getSessions'
+  },
+
+  'POST /api/v1/session/delete': {
+    controller: 'AuthController',
+    action: 'deleteSession'
+  },
+
+  'GET /api/v1/webhooks': {
+    controller: 'WebhookController',
+    action: 'getWebhooks'
+  },
+
+  'POST /api/v1/webhook/delete': {
+    controller: 'WebhookController',
+    action: 'deleteWebhook'
+  },
+
+  'POST /api/v1/list/create': {
+    controller: 'ListController',
+    action: 'addList'
+  },
+
+  'POST /api/v1/list/remove': {
+    controller: 'ListController',
+    action: 'removeList'
+  },
+
+  'GET /api/v1/lists/:boardid' :{
+    controller: 'BoardsController',
+    action: 'getTrelloLists'
+  },
+
+  'POST /api/v1/list/subscribe' :{
+    controller: 'WebhookController',
+    action: 'subscribe'
+  },
+
+  'POST /webhooks/:id' : {
+    controller: 'WebhookController',
+    action: 'callback'
+  },
+
+  'GET /api/v1/boards': {
     controller: 'BoardsController',
     action: 'getTrelloBoards'
   },
-
-  'GET /tasks': 'AuthController.home',
-
-  '/tasks/login' : 'AuthController.login',
-
-  '/tasks/register': 'UserController.register',
-
-  '/tasks/callback': 'AuthController.callback',
 
 };
