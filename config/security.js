@@ -36,4 +36,6 @@ module.exports.security = {
     allowResponseHeaders: 'content-type,x-xsrf-token'
   },
 
+  csrf: true
+
 };
