@@ -52,14 +52,39 @@ module.exports = {
     let card_list = await sails.helpers.oauthGetResource(inputs.request, `https://api.trello.com/1/lists/${inputs.modelId}/cards`)
     .catch(error => { throw error })
 
-    card_list.data.forEach(card => {
-      card.idMembers.forEach(member => {
-        if(member === inputs.request.session.user.trelloId){
-          //Salva o card
-          sails.log(member)
-        }
-      })
+    let lifOfCards = JSON.parse(card_list.data);
+
+    // sails.log('CARD LIST', lifOfCards.length);
+    // sails.log('USER TRELLO ID', inputs.request.session.user);
+
+    _.forEach(lifOfCards, function(card){
+      _.forEach(card.idMembers, function (member) {
+        if (member === inputs.request.session.user.trello_id){
+          Card.create({
+
+          })
+        };
+      });
     });
+
+    // for (let i = 0; i < card_list.data.length; i++) {
+    //   sails.log(card_list.data[i].name)
+    //   // for (let index = 0; index < card_list.data[i].members.length; index++) {
+    //   //   if (member === inputs.request.session.user.trelloId) {
+    //   //     //Salva o card
+    //   //     sails.log(card)
+    //   //   } 
+    //   // }
+    // }
+
+    // card_list.data.forEach(card => {
+    //   card.idMembers.forEach(member => {
+    //     if(member === inputs.request.session.user.trelloId){
+    //       //Salva o card
+    //       sails.log(card)
+    //     }
+    //   })
+    // });
 
     return exits.success(card_list.data);
 

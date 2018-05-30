@@ -13,8 +13,32 @@ module.exports = {
       type: 'string'
     },
 
-    listId: {
+    list_id: {
       model: 'List'
+    },
+    // ID da Lista na base do Trello a qual este card pertence
+    model_id:{
+      type: 'string'
+    },
+
+    short_url: {
+      type: 'string'
+    },
+
+    id_checklist:{
+      type: 'string'
+    },
+
+    due:{
+      type: 'string'
+    },
+
+    due_complete: {
+      type: 'string'
+    },
+
+    labels:{
+      type: 'ref'
     },
 
     feeds: {

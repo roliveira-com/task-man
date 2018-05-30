@@ -69,7 +69,7 @@ module.exports = {
       let cards = await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel)
       .catch(error => sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error))
 
-      console.log(`CARDS DA LISTA ${req.body.modelId}: `, cards);
+      // console.log(`CARDS DA LISTA ${req.body.modelId}: `, cards);
 
       res.status(200).send({error : true, message: 'Webhook não cadastrado, mas os cartões obtidos com sucesso'});
       return;

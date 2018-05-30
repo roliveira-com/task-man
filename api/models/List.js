@@ -32,7 +32,7 @@ module.exports = {
 
     cards :{
       collection : 'Card',
-      via : 'listId'
+      via: 'list_id'
     }
 
   },
