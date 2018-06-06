@@ -44,6 +44,10 @@ module.exports = {
     feeds: {
       collection: 'Webhook',
       via: 'targetCardModel'
+    },
+
+    owner: {
+      model: 'User'
     }
 
   },

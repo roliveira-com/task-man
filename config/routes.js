@@ -16,6 +16,7 @@ module.exports.routes = {
   '/': {
     controller: 'AuthController',
     action: 'home',
+    csrf: true
   },
 
   '/login': {
@@ -127,7 +128,7 @@ module.exports.routes = {
   'POST /api/v1/list/subscribe' :{
     controller: 'WebhookController',
     action: 'subscribe',
-    csrf: true
+    csrf: false
   },
 
   '/webhooks/:id' : {
@@ -139,6 +140,12 @@ module.exports.routes = {
   'GET /api/v1/boards': {
     controller: 'BoardsController',
     action: 'getTrelloBoards',
+  },
+
+  'GET /api/v1/:listId/cards': {
+    controller: 'CardController',
+    action: 'getCardsByListId',
+    csrf: false
   },
 
 };

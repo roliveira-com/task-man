@@ -49,42 +49,41 @@ module.exports = {
 
   fn: async (inputs, exits) => {
 
-    let card_list = await sails.helpers.oauthGetResource(inputs.request, `https://api.trello.com/1/lists/${inputs.modelId}/cards`)
-    .catch(error => { throw error })
+    try{
+      let card_list = await sails.helpers.oauthGetResource(inputs.request, `https://api.trello.com/1/lists/${inputs.modelId}/cards`)
+    }catch(error){
+      throw error
+    }
 
-    let lifOfCards = JSON.parse(card_list.data);
+    let listOfCards = JSON.parse(card_list.data);
 
-    // sails.log('CARD LIST', lifOfCards.length);
+    // sails.log('CARD LIST', listOfCards.length);
     // sails.log('USER TRELLO ID', inputs.request.session.user);
 
-    _.forEach(lifOfCards, function(card){
+    _.forEach(listOfCards, function(card){
       _.forEach(card.idMembers, function (member) {
         if (member === inputs.request.session.user.trello_id){
           Card.create({
-
+            title        : card.name,
+            list_id      : inputs.listId,
+            mode_id      : inputs.modelId,
+            short_url    : card.shortUrl,
+            id_checklist : card.idChecklist,
+            due          : card.due || '',
+            due_complete : card.dueComplete || '',
+            labels       : card.labels,
+            owner        : req.session.user.id
+          })
+          .fetch()
+          .then(card => {
+            sails.log(`CARD ${card.id} CRIADO COM SUCESSO`)
+          })
+          .catch(error => {
+            sails.log('NAO FOI POSSIVEL CRIAR ESTE CARD NA BASE', error);
           })
         };
       });
     });
-
-    // for (let i = 0; i < card_list.data.length; i++) {
-    //   sails.log(card_list.data[i].name)
-    //   // for (let index = 0; index < card_list.data[i].members.length; index++) {
-    //   //   if (member === inputs.request.session.user.trelloId) {
-    //   //     //Salva o card
-    //   //     sails.log(card)
-    //   //   } 
-    //   // }
-    // }
-
-    // card_list.data.forEach(card => {
-    //   card.idMembers.forEach(member => {
-    //     if(member === inputs.request.session.user.trelloId){
-    //       //Salva o card
-    //       sails.log(card)
-    //     }
-    //   })
-    // });
 
     return exits.success(card_list.data);
 
