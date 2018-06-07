@@ -12,6 +12,11 @@ module.exports = {
   },
   
   getTrelloLists: function (req, res) {
+    // try{
+    //   let lists = await sails.helpers.handleDupeTrelloLists()
+    // }catch(err){
+    //   sails.log(err)
+    // }
     sails.helpers.oauthGetResource(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`).then(response => {
       if (response.error) return res.status(500).send({ error: response.error });
       res.status(200).send(JSON.parse(response.data))
