@@ -49,11 +49,9 @@ module.exports = {
 
   fn: async (inputs, exits) => {
 
-    try{
-      let card_list = await sails.helpers.oauthGetResource(inputs.request, `https://api.trello.com/1/lists/${inputs.modelId}/cards`)
-    }catch(error){
-      throw error
-    }
+    let card_list = await sails.helpers.oauthGetResource(inputs.request, `https://api.trello.com/1/lists/${inputs.modelId}/cards`).catch(error => {
+      throw error;
+    })
 
     let listOfCards = JSON.parse(card_list.data);
 
@@ -66,13 +64,13 @@ module.exports = {
           Card.create({
             title        : card.name,
             list_id      : inputs.listId,
-            mode_id      : inputs.modelId,
+            model_id     : inputs.modelId,
             short_url    : card.shortUrl,
             id_checklist : card.idChecklist,
             due          : card.due || '',
             due_complete : card.dueComplete || '',
             labels       : card.labels,
-            owner        : req.session.user.id
+            owner        : inputs.request.session.user.id
           })
           .fetch()
           .then(card => {

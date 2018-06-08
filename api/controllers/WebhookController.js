@@ -61,7 +61,6 @@ module.exports = {
 
         try{
           await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel);
-          break;
         }catch(error){
           sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error)
         }
@@ -88,6 +87,7 @@ module.exports = {
     }
 
     sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=${sails.config.custom.webhookCallback}/${req.body.targetListModel}`)
+    // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://roliveira-taskman.herokuapp.com/webhooks/${req.body.targetListModel}`)
     .then(response => {
       if (response.error) {
         sails.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)

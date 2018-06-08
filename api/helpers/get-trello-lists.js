@@ -63,26 +63,62 @@ module.exports = {
       //   response: response
       // }
 
-      let resource = []
-
+ 
       let lists = JSON.parse(data);
 
-      _.forEach(lists, function (list) {
+      let resource = [];
 
-        sails.log('ID DAS LISTAS DO TRELLO', list.id)
-        Card.find({
-          mode_id: list.id
-        })
-        .then(result => {
-          sails.log('Array result: ', result)
-          if(result.length !== 0){
-            list.subscribed = true;
+      var makeList = new Promise(function (resolve, reject) {
+          if (lists) {
+              for (let i=0; i<lists.length; i++) {
+                var result_track = [];
+                var compose = {
+                  id        : lists[i].id,
+                  name      : lists[i].name,
+                  idBoard   : lists[i].idBoard
+                };
+                sails.log('ID DAS LISTAS DO TRELLO', lists[i].id);
+                Card.find({ model_id: lists[i].id }).then(result => {
+                    result_track = result;
+                })
+                sails.log('LENGTH DO ARRAY result_track', result_track);
+                if(result_track.length === 0){
+                  compose.subscripton = false;
+                }else{
+                  compose.subscripton = true;
+                }
+                resource.push(compose);
+              }
+              resolve(resource);
+          } else {
+              var reason = {erro: true, message: 'Não foi posível montar a lista do Trello'};
+              reject(reason);
           }
-        })
-        resource.push(list);
+      });
+
+      makeList.then(lists => {
+        sails.log('RETORNO DA PROMISE makeList:', lists);
+        return exits.success(resource);
+      }).catch(error => {
+        throw error;
       })
 
-      return exits.success(resource);
+      // _.forEach(lists, function (list) {
+
+      //   sails.log('ID DAS LISTAS DO TRELLO', list.id)
+      //   Card.find({
+      //     model_id: list.id
+      //   })
+      //   .then(result => {
+      //     sails.log('Array result: ', result)
+      //     if(result.length !== 0){
+      //       list.subscribed = true;
+      //     }
+      //   })
+      //   resource.push(list);
+      // })
+
+      
     });
   }
 
