@@ -48,6 +48,17 @@ module.exports = {
 
     oauth.getProtectedResource("https://api.trello.com/1/members/me", "GET", inputs.token.oauth.accessToken, inputs.token.oauth.accessTokenSecret, function(error, data, response){
       const userData = JSON.parse(data);
+      User.find({
+        trello_id       : userData.id
+      })
+      .then(user => {
+        console.log('QTDE DE USUARIO NA BASE', user.length);
+        console.log('USUARIOS NA BASE', user);
+        if(user.length != 0){
+          console.log({error:true, data: "usuário já existe"})
+          return exits.success({error:true, data: "usuário já existe"});
+        }
+      })
       User.create({
         trello_id       : userData.id,  
         sessions        : inputs.token.id,

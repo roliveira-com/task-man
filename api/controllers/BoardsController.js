@@ -13,21 +13,21 @@ module.exports = {
   
   getTrelloLists: function (req, res) {
 
-    sails.helpers.getTrelloLists(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`)
-    .then(config_lists => {
-      sails.log('LISTAS DO TRELLO CONFIGURADAS', config_lists)
-      res.status(200).send({
-        error: false,
-        data: config_lists
-      })
-    })
-    .catch(error => {
-      sails.log('ERRO AO OBTER LISTAS NO TRELLO', error)
-      res.status(500).send({
-        error: true,
-        data: error
-      })
-    })
+    // sails.helpers.getTrelloLists(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`)
+    // .then(config_lists => {
+    //   sails.log('LISTAS DO TRELLO CONFIGURADAS', config_lists)
+    //   res.status(200).send({
+    //     error: false,
+    //     data: config_lists
+    //   })
+    // })
+    // .catch(error => {
+    //   sails.log('ERRO AO OBTER LISTAS NO TRELLO', error)
+    //   res.status(500).send({
+    //     error: true,
+    //     data: error
+    //   })
+    // })
 
     // sails.helpers.getTrelloLists(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`).then(response => {
     //   sails.log('LISTAS DO TRELLO CONFIGURADAS', response)
@@ -43,14 +43,14 @@ module.exports = {
     //   sails.log(err)
     // }
 
-    // sails.helpers.oauthGetResource(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`).then(response => {
-    //   if (response.error) return res.status(500).send({ error: response.error });
-    //   res.status(200).send(JSON.parse(response.data))
-    //   // res.view('pages/tasks/lists',{
-    //   //   lists : JSON.parse(response.data),
-    //   //   subscribed : false
-    //   // });
-    // })
+    sails.helpers.oauthGetResource(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`).then(response => {
+      if (response.error) return res.status(500).send( response.error.data.error.data.error );
+      res.status(200).send(JSON.parse(response.data))
+      // res.view('pages/tasks/lists',{
+      //   lists : JSON.parse(response.data),
+      //   subscribed : false
+      // });
+    })
   },
 
   getTrelloBoards: function (req, res) {

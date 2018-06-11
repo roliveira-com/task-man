@@ -79,6 +79,12 @@ module.exports = {
     };
   },
 
+  // refreshLogin: function(req, res){
+  //   sails.helpers.oauthAuthorize(req, res).then(
+  //     console.log('OK_DOC')
+  //   )
+  // },
+
   logout: function (req, res) {
     req.session.destroy();
     res.redirect('/')

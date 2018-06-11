@@ -11,9 +11,17 @@ app.controller('cardOptionsController', ['$scope', '$http', function ($scope, $h
   $http.get('/api/v1/boards').then(function (response) {
     $scope.boardsOptions = response.data;
   })
-    .catch(function (err) {
-      console.log(err)
-    })
+  .catch(function (err) {
+    console.log(err.data.error)
+    /**
+     * @todo :: Criar serviço de error handler
+     * $error.handle(err.data.error.data);
+     */
+
+    if(err.data.error.data === "expired token"){
+      document.querySelector('.auth-screen').classList.add('in');
+    }
+  })
 
   $scope.addWebhook = function (data) {
     $http.post('/api/v1/list/subscribe', data).then(function (result) {
@@ -39,6 +47,16 @@ app.directive('hasCardOptions', ['$http', function ($http) {
     controller: 'cardOptionsController',
     link: function ($scope, element, attrs) {
 
+    }
+  }
+}])
+
+app.directive('auth-screen', ['$http', function ($http) {
+  return {
+    restrict: 'C',
+    controller: 'cardOptionsController',
+    link: function ($scope, element, attrs) {
+      console.log(element);
     }
   }
 }])

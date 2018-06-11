@@ -68,6 +68,12 @@ module.exports = {
 
       let resource = [];
 
+      async function getCard(id){
+        return await Card.find({ model_id: id }).then(result => {
+          return result;
+        })
+      }
+
       var makeList = new Promise(function (resolve, reject) {
           if (lists) {
               for (let i=0; i<lists.length; i++) {
@@ -82,7 +88,7 @@ module.exports = {
                     result_track = result;
                 })
                 sails.log('LENGTH DO ARRAY result_track', result_track);
-                if(result_track.length === 0){
+                if(the_list.length === 0){
                   compose.subscripton = false;
                 }else{
                   compose.subscripton = true;
@@ -96,12 +102,14 @@ module.exports = {
           }
       });
 
-      makeList.then(lists => {
-        sails.log('RETORNO DA PROMISE makeList:', lists);
-        return exits.success(resource);
-      }).catch(error => {
-        throw error;
-      })
+      if(the_list){
+        makeList.then(lists => {
+          sails.log('RETORNO DA PROMISE makeList:', lists);
+          return exits.success(resource);
+        }).catch(error => {
+          throw error;
+        })
+      }
 
       // _.forEach(lists, function (list) {
 
