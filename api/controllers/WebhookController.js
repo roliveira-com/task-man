@@ -51,7 +51,7 @@ module.exports = {
    * }
    */
 
-  subscribe: function (req, res) {
+  subscribe: async function (req, res) {
 
     if(req){
 
@@ -77,8 +77,8 @@ module.exports = {
       //   return;
       // }) 
 
-      // let cards = await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel)
-      // .catch(error => sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error))
+      let cards = await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel)
+      .catch(error => sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error))
 
       // console.log(`CARDS DA LISTA ${req.body.modelId}: `, cards);
 

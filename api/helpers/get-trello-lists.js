@@ -68,6 +68,10 @@ module.exports = {
 
       let resource = [];
 
+      function attrVar(variavel, resultado) {
+        return variavel = resultado;
+      }
+
       var makeList = new Promise(function (resolve, reject) {
           if (lists) {
               for (let i=0; i<lists.length; i++) {
@@ -78,8 +82,9 @@ module.exports = {
                   idBoard   : lists[i].idBoard
                 };
                 sails.log('ID DAS LISTAS DO TRELLO', lists[i].id);
-                Card.find({ model_id: lists[i].id }).then(result => {
-                    result_track = result;
+                Card.find({ model_id: lists[i].id }).then(function(result) {
+                    sails.log('RESULTADO DA QUERY NA TABLE CARD', result)
+                    result_track = attrVar(result_track, result);
                 })
                 sails.log('LENGTH DO ARRAY result_track', result_track);
                 if(result_track.length === 0){
@@ -96,7 +101,7 @@ module.exports = {
           }
       });
 
-      makeList.then(lists => {
+      makeList.then(function (lists){
         sails.log('RETORNO DA PROMISE makeList:', lists);
         return exits.success(resource);
       }).catch(error => {
