@@ -12,13 +12,14 @@ app.controller('cardOptionsController', ['$scope', '$http', function ($scope, $h
     $scope.boardsOptions = response.data;
   })
   .catch(function (err) {
+    console.log(err);
     console.log(err.data.error)
     /**
      * @todo :: Criar serviço de error handler
      * $error.handle(err.data.error.data);
      */
 
-    if(err.data.error.data === "expired token"){
+    if(err.data.error.data === "expired token" || err.data.error.data === "invalid token"){
       document.querySelector('.auth-screen').classList.add('in');
     }
   })

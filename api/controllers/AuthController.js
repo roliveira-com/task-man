@@ -43,12 +43,34 @@ module.exports = {
   },
 
   callback: function(req, res){
-    sails.helpers.oauthAccessToken(req, res).then(token => {
-      sails.helpers.oauthUserCreate(token).then(user => {
-        req.session.user = user;
-        res.redirect('/')
+    if(!req.session.user){
+      sails.helpers.oauthSessionCreate(req, res).then(token => {
+        sails.helpers.oauthUserCreate(token).then(response => {
+          if(response.erro){
+            req.session.error = response.message
+            res.redirect('/')
+            return
+          }else{
+            req.session.user = response;
+            req.session.token = token;
+            res.redirect('/')
+            return
+          }
+        })
       })
-    })
+    }else{
+      sails.helpers.oauthSessionRefresh(req).then(response => {
+        if(response.erro){
+          req.session.error = response.message
+          res.redirect('/')
+          return
+        }else{
+          req.session.token = response
+          res.redirect('/')
+          return
+        }
+      })
+    }
   },
 
   login: function (req, res) {
@@ -66,7 +88,7 @@ module.exports = {
         } else {
           Session.find({ owner: user.id }).then(session => {
             req.session.user = user[0]
-            req.session.oauth = session[0].oauth
+            req.session.token = session[0]
             res.redirect('/');
             return
           })
@@ -78,12 +100,6 @@ module.exports = {
       return;
     };
   },
-
-  // refreshLogin: function(req, res){
-  //   sails.helpers.oauthAuthorize(req, res).then(
-  //     console.log('OK_DOC')
-  //   )
-  // },
 
   logout: function (req, res) {
     req.session.destroy();
