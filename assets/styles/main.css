@@ -87,3 +87,25 @@
   justify-content: center;
   padding: 0.75rem;
 }
+
+.auth-screen{
+  background-color: #00d1b2;
+  display: block;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+  transform: translateY(-100%);
+  transition: transform ease-in-out .5s;
+}
+
+.auth-screen.in{
+  transform: translateY(0);
+  transition: transform ease-in-out .5s;
+}
+
+.auth-screen__container{
+  position: relative;
+  top: 25%;
+}

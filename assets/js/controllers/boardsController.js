@@ -5,7 +5,7 @@ app.controller('boardsController', ['$scope', '$http', function ($scope, $http) 
     $scope.boards = response.data;
   })
   .catch(function (err) {
-    console.log(err)
+    console.log(err.data)
   })
 
 }]);

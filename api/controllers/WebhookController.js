@@ -55,17 +55,17 @@ module.exports = {
 
     if(req){
 
-      fetchingCards(req, res);
+      // fetchingCards(req, res);
 
-      async function fetchingCards(req, res) {
+      // async function fetchingCards(req, res) {
 
-        try{
-          await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel);
-        }catch(error){
-          sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error)
-        }
+      //   try{
+      //     await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel);
+      //   }catch(error){
+      //     sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error)
+      //   }
         
-      }
+      // }
       // sails.helpers.oauthGetResource(req, `https://api.trello.com/1/lists/${req.body.modelId}/cards`)
       // .then(cards => {
       //   sails.log(`CARDS DA LISTA ${req.body.modelId}: `, cards);

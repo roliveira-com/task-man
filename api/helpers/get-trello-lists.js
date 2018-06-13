@@ -68,9 +68,13 @@ module.exports = {
 
       let resource = [];
 
-      function attrVar(variavel, resultado) {
-        return variavel = resultado;
+      async function getCard(id){
+        return await Card.find({ model_id: id }).then(result => {
+          return result;
+        })
       }
+
+      
 
       var makeList = new Promise(function (resolve, reject) {
           if (lists) {
@@ -87,7 +91,7 @@ module.exports = {
                     result_track = attrVar(result_track, result);
                 })
                 sails.log('LENGTH DO ARRAY result_track', result_track);
-                if(result_track.length === 0){
+                if(the_list.length === 0){
                   compose.subscripton = false;
                 }else{
                   compose.subscripton = true;
@@ -101,12 +105,23 @@ module.exports = {
           }
       });
 
+<<<<<<< HEAD
       makeList.then(function (lists){
         sails.log('RETORNO DA PROMISE makeList:', lists);
         return exits.success(resource);
       }).catch(error => {
         throw error;
       })
+=======
+      if(the_list){
+        makeList.then(lists => {
+          sails.log('RETORNO DA PROMISE makeList:', lists);
+          return exits.success(resource);
+        }).catch(error => {
+          throw error;
+        })
+      }
+>>>>>>> 6a6517467cda6eef1edfa19877161caaabda0b71
 
       // _.forEach(lists, function (list) {
 

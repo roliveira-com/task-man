@@ -64,6 +64,7 @@ module.exports = {
     );
 
     oauth.getOAuthAccessToken(token, tokenSecret, verifier, function(error, accessToken, accessTokenSecret, results){
+      sails.log('SESSÃO DE USUÁRIO NÃO DETECTADA, INICIANDO CRIAÇÃO DE SESSÃO NA BASE...');
       Session.create(
         {
           oauth: {
@@ -74,10 +75,12 @@ module.exports = {
       )
       .fetch()
       .then(function(session) {
+        sails.log('SESSÃO DE USUÁRIO CRIADA NA BASE COM SUCESSO', session)
         sails.sockets.blast('session', {verb:"created", id: session.id, data: session});
         return exits.success(session);
       })
       .catch(function(error){
+        sails.log('ERRO NA CRIAÇÃO DA SESSÃO DE USUÁRIO')
         throw 'noAuth';
       })
     })
