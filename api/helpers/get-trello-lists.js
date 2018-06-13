@@ -51,11 +51,11 @@ module.exports = {
       "HMAC-SHA1"
     );
 
-    if (!inputs.request.session.oauth) {
+    if (!inputs.request.session.token) {
       throw 'noAuth';
     }
 
-    oauth.getProtectedResource(inputs.url, "GET", inputs.request.session.oauth.accessToken, inputs.request.session.oauth.accessTokenSecret, function (error, data, response) {
+    oauth.getProtectedResource(inputs.url, "GET", inputs.request.session.token.oauth.accessToken, inputs.request.session.token.oauth.accessTokenSecret, function (error, data, response) {
       if (error) throw 'noAuth';
       // let resource = {
       //   error: error,
@@ -66,20 +66,10 @@ module.exports = {
  
       let lists = JSON.parse(data);
 
-      let resource = [];
-
-      async function getCard(id){
-        return await Card.find({ model_id: id }).then(result => {
-          return result;
-        })
-      }
-
-      
-
       var makeList = new Promise(function (resolve, reject) {
+          let resource = [];
           if (lists) {
-              for (let i=0; i<lists.length; i++) {
-                var result_track = [];
+              for (i=0; i<lists.length; i++) {
                 var compose = {
                   id        : lists[i].id,
                   name      : lists[i].name,
@@ -87,17 +77,18 @@ module.exports = {
                 };
                 sails.log('ID DAS LISTAS DO TRELLO', lists[i].id);
                 Card.find({ model_id: lists[i].id }).then(function(result) {
-                    sails.log('RESULTADO DA QUERY NA TABLE CARD', result)
-                    result_track = attrVar(result_track, result);
+                    sails.log('RESULTADO DA QUERY NA TABLE CARD', result);
+                    sails.log('LENGTH DO ARRAY result', result.length);
+                    if (result == 0) {
+                      compose.subscripton = false;
+                    } else {
+                      compose.subscripton = true;
+                    }
+                    sails.log('OBJETO COMPOSE', compose)
+                    resource.push(compose);
                 })
-                sails.log('LENGTH DO ARRAY result_track', result_track);
-                if(the_list.length === 0){
-                  compose.subscripton = false;
-                }else{
-                  compose.subscripton = true;
-                }
-                resource.push(compose);
               }
+              sails.log('OBJETO RESOURCE', resource)
               resolve(resource);
           } else {
               var reason = {erro: true, message: 'Não foi posível montar a lista do Trello'};
@@ -105,23 +96,12 @@ module.exports = {
           }
       });
 
-<<<<<<< HEAD
       makeList.then(function (lists){
         sails.log('RETORNO DA PROMISE makeList:', lists);
-        return exits.success(resource);
+        return exits.success(lists);
       }).catch(error => {
         throw error;
       })
-=======
-      if(the_list){
-        makeList.then(lists => {
-          sails.log('RETORNO DA PROMISE makeList:', lists);
-          return exits.success(resource);
-        }).catch(error => {
-          throw error;
-        })
-      }
->>>>>>> 6a6517467cda6eef1edfa19877161caaabda0b71
 
       // _.forEach(lists, function (list) {
 
