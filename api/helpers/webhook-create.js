@@ -27,7 +27,7 @@ module.exports = {
 
     Webhook.create(new_webhook)
       .fetch()
-      .then(register => {
+      .then(() => {
         sails.sockets.blast('webhook', { verb: "created", id: webhook.id, data: webhook });
         sails.log(`CADASTRO DO WEBHOOK ${webhook.id} FEITO COM SUCESSO`);
         res.status(200).send({

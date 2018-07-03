@@ -55,9 +55,14 @@ module.exports = {
 
     if(req){
 
-      fetchingCards(req, res);
+      // sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel)
+      // .catch(error => {
+      //   sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error)
+      // })
 
-      async function fetchingCards(req, res) {
+      fetchingCards(req);
+
+      async function fetchingCards(req) {
 
         try{
           await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel);
@@ -66,24 +71,7 @@ module.exports = {
         }
         
       }
-      // sails.helpers.oauthGetResource(req, `https://api.trello.com/1/lists/${req.body.modelId}/cards`)
-      // .then(cards => {
-      //   sails.log(`CARDS DA LISTA ${req.body.modelId}: `, cards);
-      //   res.redirect('/');
-      //   return;
-      // })
-      // .catch(error => {
-      //   sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error)
-      //   return;
-      // }) 
-
-      let cards = await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel)
-      .catch(error => sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error))
-
-      // console.log(`CARDS DA LISTA ${req.body.modelId}: `, cards);
-
-      res.status(200).send({error : true, message: 'Webhook não cadastrado, mas os cartões obtidos com sucesso'});
-      return;
+      
     }
 
     sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=${sails.config.custom.webhookCallback}/${req.body.targetListModel}`)

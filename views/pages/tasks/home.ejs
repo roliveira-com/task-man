@@ -99,7 +99,7 @@
                     <div class="control">
                       <div class="select is-block" ng-class="{'is-loading':isLoading}">
                         <select ng-model="webhook.modelId" ng-disabled="!selectOptions || isLoading" required>
-                          <option ng-repeat="list in selectOptions track by list.id" value="{{list.id}}">{{list.name}}</option>                          
+                          <option ng-repeat="list in selectOptions" value="{{list.id}}" ng-hide="list.subscription">{{list.name}}</option>                          
                         </select>
                       </div>
                     </div>

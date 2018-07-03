@@ -28,7 +28,7 @@ app.controller('cardOptionsController', ['$scope', '$http', function ($scope, $h
     $scope.isLoading = true;
     $http.get('/api/v1/lists/' + $scope.webhook.boardId).then(function (result) {
       $scope.isLoading = false;
-      $scope.selectOptions = result.data;
+      $scope.selectOptions = result.data.data;
     })
   }
 }])
