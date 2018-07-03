@@ -55,9 +55,6 @@ module.exports = {
 
     let listOfCards = JSON.parse(card_list.data);
 
-    // sails.log('CARD LIST', listOfCards.length);
-    // sails.log('USER TRELLO ID', inputs.request.session.user);
-
     _.forEach(listOfCards, function(card){
       _.forEach(card.idMembers, function (member) {
         if (member === inputs.request.session.user.trello_id){
