@@ -3,10 +3,10 @@ const url   = require('url');
 
 module.exports = {
 
-  friendlyName: 'Solicita Requisição do OAuth Token',
+  friendlyName: 'Gera um OAuth Token',
 
 
-  description: 'Configura e realiza a requisição do OAuth Request Token',
+  description: 'Gera um OAuth Request Token e o grava na base',
 
 
   inputs: {

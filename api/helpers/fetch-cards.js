@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Cards no Trello',
 
 
-  description: 'Busca os cards no trello relacionados a detrrminada lista e os salva na lista Task-Man',
+  description: 'Busca os cards no trello relacionados a detrrminada lista e os salva na base Task-Man',
 
 
   inputs: {

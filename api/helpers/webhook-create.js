@@ -27,20 +27,14 @@ module.exports = {
 
     Webhook.create(new_webhook)
       .fetch()
-      .then(() => {
+      .then(webhook => {
         sails.sockets.blast('webhook', { verb: "created", id: webhook.id, data: webhook });
         sails.log(`CADASTRO DO WEBHOOK ${webhook.id} FEITO COM SUCESSO`);
-        res.status(200).send({
-          error: false,
-          message: 'Lista adicionada com sucesso'
-        })
+        return exits.success({error:false, data:webhook})
       })
       .catch(error => {
         sails.log('ERRO NO CADASTRO DO WEBHOOK NA BASE', error);
-        res.status(500).send({
-          error: error,
-          message: 'O cadastro do webhook foi feito no Trello mas não em nossa base'
-        })
+        throw {error:true, data:error}
       })
   }
 

@@ -5,7 +5,7 @@ module.exports = {
   friendlyName: 'Obtem as Listas do Trello',
 
 
-  description: 'Configura um objeto de resposta com as listas do Trello verificando que já há um webhook cadastrados para ela',
+  description: 'Configura um objeto de resposta com as listas do Trello verificando que já há um cards cadastrados relacionados a ela',
 
 
   inputs: {

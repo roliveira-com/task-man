@@ -6,7 +6,7 @@ module.exports = {
   friendlyName: 'Solicita Requisição do OAuth Token',
 
 
-  description: 'Configura e realiza a requisição do OAuth Request Token',
+  description: 'Obtem credenciais para geração do Oauth Access Token definitivo',
 
 
   inputs: {
