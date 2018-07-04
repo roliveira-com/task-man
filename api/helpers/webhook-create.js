@@ -5,6 +5,12 @@ module.exports = {
   description: 'Configura o objeto e registra webhooks na base',
 
   inputs: {
+    request: {
+      friendlyName: 'Req',
+      description: 'Objeto de request',
+      type: 'ref',
+      required: true
+    },
     webhook: {
       friendlyName: 'Webhook',
       description: 'Objeto do webhook',
@@ -16,10 +22,10 @@ module.exports = {
   fn: async (inputs, exits) => {
 
     let new_webhook = {
-      targetListModel : inputs.webhook.targetListModel || null,
-      targeCardModel  : inputs.webhook.targeCardModel || null,
-      idModel         : inputs.webhook.modelId,
-      description     : `webhook para o model ${inputs.webhook.modelId}`,
+      targetListModel : inputs.request.body.targetListModel || null,
+      targeCardModel  : inputs.request.body.targeCardModel || null,
+      idModel         : inputs.request.body.modelId,
+      description     : `webhook para o model ${inputs.request.body.modelId}`,
       active          : inputs.webhook.active,
       trelloId        : inputs.webhook.id,
       callbackURL     : inputs.webhook.callbackURL,

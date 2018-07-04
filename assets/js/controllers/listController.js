@@ -14,9 +14,9 @@ app.controller('listController', ['$rootScope', '$scope', '$http', function ($ro
       $scope.lists.push(result.data);
       $rootScope.toggleNewListForm()
     })
-      .catch(function (error) {
-        $scope.listRegistered = error.data
-      })
+    .catch(function (error) {
+      $scope.listRegistered = error.data
+    })
   }
 
   $scope.deleteList = function (list_id) {
@@ -26,9 +26,9 @@ app.controller('listController', ['$rootScope', '$scope', '$http', function ($ro
       });
       $scope.lists.splice(deleted, 1);
     })
-      .catch(function (error) {
-        $scope.listRegistered = error.data;
-      })
+    .catch(function (error) {
+      $scope.listRegistered = error.data;
+    })
   }
 
 }]);

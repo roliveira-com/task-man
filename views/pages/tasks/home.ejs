@@ -138,9 +138,11 @@
               </div>
             </span>
           </header>
-          <div class="card-content">
+          <div class="card-content" ng-controller="cardsController" ng-init="getCards(list.id)">
             <div class="content">
-              {{list.description}}
+              <div class="card-item" ng-repeat="card in listCards">
+                <p class="card-item__title">{{card.title}}</p>
+              </div>
             </div>
           </div>
         </div>
