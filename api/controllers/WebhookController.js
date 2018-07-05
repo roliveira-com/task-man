@@ -95,7 +95,32 @@ module.exports = {
     console.log('ID DO WEBHOOK NA BASE LOCAL', req.param('id'));
     console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
 
+    Action.create({
+        modelId : req.param('id'),
+        model   : req.body.model
+    })
+    .then(() => {
+        sails.log('UMA ACTION FOI GRAVADA')
+    })
+    .catch(erro => {
+        sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
+    })
+
     res.status(200).send({error: false, data: 'ok'})
+
+    // let action = req.body.model.type;
+
+    // switch (action) {
+    //     case 'createCard':
+    //         Action.create({
+    //             modelId : req.param('id'),
+    //             model   : req.body.model
+    //         })
+    //         .catch(erro => {
+    //             sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
+    //         })
+    //         break;
+    // }
 
   }
 
