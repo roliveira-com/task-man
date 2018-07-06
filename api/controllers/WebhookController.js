@@ -97,7 +97,7 @@ module.exports = {
 
     Action.create({
         modelId : req.param('id'),
-        model   : req.body
+        action   : req.body
     })
     .then(() => {
         sails.log('UMA ACTION FOI GRAVADA')
