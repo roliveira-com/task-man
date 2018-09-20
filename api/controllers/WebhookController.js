@@ -63,8 +63,8 @@ module.exports = {
       
     }
 
-    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=${sails.config.custom.webhookCallback}/${req.body.targetListModel}`)
-    // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://roliveira-taskman.herokuapp.com/webhooks/${req.body.targetListModel}`)
+    // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=${sails.config.custom.webhookCallback}/${req.body.targetListModel}`)
+    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://roliveira-taskman.herokuapp.com/webhooks/${req.body.targetListModel}`)
     .then(response => {
       if (response.error) {
         sails.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
