@@ -14,9 +14,9 @@ module.exports.policies = {
 
   ManageController :{
 
-    manageSessions  : 'isLogged',
-    manageUsers     : 'isLogged',
-    manageWebhooks  : 'isLogged'
+    manageSessions  : 'isAdmin',
+    manageUsers     : 'isAdmin',
+    manageWebhooks  : 'isAdmin'
 
   },
 

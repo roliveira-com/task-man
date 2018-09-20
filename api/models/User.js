@@ -18,6 +18,10 @@ module.exports = {
       via: 'owner'
     },
 
+    role:{
+      type: 'string'
+    },
+
     avatar_url: {
       type: 'string'
     },

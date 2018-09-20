@@ -51,26 +51,18 @@ module.exports = {
       "HMAC-SHA1"
     );
     
-    // if(!inputs.request.session.token.oauth){
-    //   throw 'noAuth';
-    // }
+    if(!inputs.request.session.token.oauth){
+      throw 'noAuth';
+    }
 
-    sails.log('Credenciais na sessão do usuário', req.session.token.oauth);
-
-    return exits.success({
-      error    : true,
-      data     : 'Errroouuu!',
-      response : 'Errroouuu!'
+    oauth.getProtectedResource(inputs.url, "POST", inputs.request.session.token.oauth.accessToken, inputs.request.session.token.oauth.accessTokenSecret, function(error, data, response){
+      const resource = {
+        error    : error,
+        data     : data,
+        response : response
+      }
+      return exits.success(resource);
     });
-
-    // oauth.getProtectedResource(inputs.url, "POST", inputs.request.session.oauth.accessToken, inputs.request.session.oauth.accessTokenSecret, function(error, data, response){
-    //   const resource = {
-    //     error    : error,
-    //     data     : data,
-    //     response : response
-    //   }
-    //   return exits.success(resource);
-    // });
   }
 
 }
