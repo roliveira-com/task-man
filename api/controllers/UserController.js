@@ -39,9 +39,9 @@ module.exports = {
   },
 
   register: function(req, res){
-    sails.helpers.oauthAuthorize(req, res).then(
-      console.log('OK_DOC')
-    )
+    sails.helpers.oauthAuthorize(req, res).then(()=>{
+      req.session.user = 'registering';
+    })
   },
 
   updates: function(req, res){

@@ -44,7 +44,11 @@ module.exports = {
     // }
 
     // sails.helpers.oauthGetResource(req, `https://api.trello.com/1/boards/${req.param('boardid')}/lists`).then(response => {
-    //   if (response.error) return res.status(500).send({ error: response.error });
+    //   if (response.error) {
+    //     sails.log('ERRO DO TRELLO AO OBTER DADOS', resource.error);
+    //     return res.status(500).send( response.error.data.error.data.error )
+    //   };
+    //   sails.log('RESPOSTA DO TRELLO AO OBTER DADOS', JSON.parse(response.data));
     //   res.status(200).send(JSON.parse(response.data))
     //   // res.view('pages/tasks/lists',{
     //   //   lists : JSON.parse(response.data),

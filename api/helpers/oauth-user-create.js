@@ -48,7 +48,9 @@ module.exports = {
 
     oauth.getProtectedResource("https://api.trello.com/1/members/me", "GET", inputs.token.oauth.accessToken, inputs.token.oauth.accessTokenSecret, function(error, data, response){
       const userData = JSON.parse(data);
-      User.create({
+
+      User.findOrCreate({ trello_id: userData.id }, 
+      { 
         trello_id       : userData.id,  
         sessions        : inputs.token.id,
         avatar_url      : userData.avatarUrl || 'not specified',
@@ -60,32 +62,26 @@ module.exports = {
         id_boards       : userData.idBoards,
         id_organizations: userData.idOrganizations
       })
-      .fetch()
-      .then(user => {
-        sails.sockets.blast('user', {verb:"created", id: user.id, data: user});
-        Session.update(
-          {
-            id:inputs.token.id
-          },
-          {
-            oauth:inputs.token.oauth
-          }
-        )
-        .fetch()
-        .then(session => {
-          sails.sockets.blast('session', {verb:"updated", id: session.id, data: session});
-          User.find(
-            {
-              id: user.id
-            }
-          )
-          .then(user => {
-            return exits.success(user[0]);
+      .exec(async(err, user, wasCreated) => {
+        if (err) { 
+          sails.log('ERRO NO CADASTRO DO NOVO USUARIO NA BASE', err)
+          return exits.success({error: true, data: err, message: 'Erro no Registo do usuário na base'}) 
+        }
+
+        if(wasCreated) {
+          sails.log('NOVO USUÁRIO CRIADO NA BASE: ' + user.id);  
+          sails.sockets.blast('user', {verb:"created", id: user.id, data: user});
+          Session.update({id:inputs.token.id}, {owner:user.id})
+          .fetch()
+          .then(session => {
+            sails.sockets.blast('session', {verb:"updated", id: session.id, data: session});
           })
-        })
-      })
-      .catch(error => {
-        throw 'noAuth';
+          return exits.success(user);
+        }
+        else {
+          sails.log('USUARIO JÁ EXISTE NA BASE: ' + user.id);
+          return exits.success({erro:true, data: null, message: 'Usuário já existe na base'});
+        }
       });
     });
   }
