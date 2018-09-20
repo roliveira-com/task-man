@@ -11,6 +11,10 @@ module.exports = {
 
     modelId :{
       type: 'string'
+    },
+
+    action:{
+      type: 'ref'
     }
 
   },

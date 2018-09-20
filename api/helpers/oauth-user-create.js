@@ -53,6 +53,7 @@ module.exports = {
       { 
         trello_id       : userData.id,  
         sessions        : inputs.token.id,
+        role            : user.email == 'rodrigo.oliveira@trigg.com.br' ? 'admin' : 'user',
         avatar_url      : userData.avatarUrl || 'not specified',
         full_name       : userData.fullName,
         initials        : userData.initials,

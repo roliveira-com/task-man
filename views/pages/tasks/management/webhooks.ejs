@@ -32,9 +32,9 @@
       <tbody>
         <tr ng-repeat="webhook in webhooks" ng-cloak>
           <td>{{webhook.id}}</td>
-          <td>{{webhook.targetListModel.name || 'Atualize a página para ver'}}</td>
+          <td>{{webhook.targetListModel.name || 'Não foi possível obter'}}</td>
           <td>{{webhook.callbackURL}}</td>          
-          <td>{{webhook.createdAt | date: 'd/M/yyyy h:mm'}}</td>
+          <td>{{webhook.createdAt | date: 'd/M/yyyy hh:mm'}}</td>
           <td>
             <button class="button is-danger" ng-click="deleteWebhook(webhook.id)"><span class="delete is-medium"></span></button>
           </td>

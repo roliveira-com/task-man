@@ -12,6 +12,7 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
 
   io.socket.get('/api/v1/webhooks', function (data) {
     $scope.webhooks = data;
+    console.log($scope.webhooks);
     $scope.$apply();
   })
 

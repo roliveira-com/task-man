@@ -22,6 +22,7 @@
               <%= req.session.user.username %>
             </a>
             <div class="navbar-dropdown is-boxed">
+              <% if(req.session.user.role == 'admin') {%>
               <a class="navbar-item" href="/manage/sessions">
                 Manage Sessions
               </a>
@@ -32,6 +33,7 @@
                 Manage Webhooks
               </a>
               <hr class="navbar-divider">
+              <% } %>
               <a class="navbar-item" href="/logout">
                 Logout
               </a>
