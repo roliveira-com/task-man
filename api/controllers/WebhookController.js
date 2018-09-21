@@ -9,6 +9,8 @@ module.exports = {
 
   getWebhooks: function (req, res) {
     Webhook.find({sort: 'createdAt DESC'})
+      .populate('targetListModel')
+      .populate('targetCardModel')
       .then(webhooks => {
         return res.status(200).json(webhooks);
       })
