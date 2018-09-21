@@ -13,6 +13,7 @@ module.exports = {
 
   getSessions: function (req, res) {
     Session.find()
+      .populate('owner')
       .then(lists => {
         res.status(200).send(lists);
       })
