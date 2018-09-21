@@ -27,8 +27,30 @@ module.exports.bootstrap = async function(done) {
   // ]);
   // ```
 
+  await Action.create(
+    {
+      modelId: "5ba4eba42093690014b20380",
+      action:{
+        action :{
+          id:"5ba4ee6f8339fc5e62e2bd23",
+          type: "updateCard",
+          date: "2018-09-21T13:13:19.864Z",
+          display: {
+            translationKey:"action_copy_card"
+          },
+        },
+        memberCreator:{
+          avatarUrl: "https://trello-avatars.s3.amazonaws.com/9104391328e32c24b15bee8274511555",
+          fullName: "Genne Simmons",
+        }
+      }
+    }
+  )
+  .then(record => {
+    return done();
+  })
+
   // Don't forget to trigger `done()` when this bootstrap function's logic is finished.
   // (otherwise your server will never lift, since it's waiting on the bootstrap)
-  return done();
 
 };

@@ -32,10 +32,10 @@
       </thead>
       <tbody>
         <tr ng-repeat="action in actions" ng-cloak>
-          <td><span class="td-avatar"><img src="{{action.action.memberCreator.avatarUrl}}" alt="foto do {{action.action.memberCreator.fullName}}"></span></td>
-          <td class="td-text-overflow">{{ action.action.date  | date: 'd/M/yyyy hh:mm'}}</td>          
-          <td>{{ action.action.type }}</td>
-          <td>{{ action.action.display.translationKey }}</td>
+          <td>{{action.action.memberCreator.fullName}}</td>
+          <td>{{ action.action.action.date  | date: 'd/M/yyyy hh:mm'}}</td>          
+          <td>{{ action.action.action.type }}</td>
+          <td>{{ action.action.action.display.translationKey }}</td>
           <td>{{ action.action.action.id }}</td>
         </tr>
       </tbody>
