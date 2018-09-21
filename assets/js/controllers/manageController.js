@@ -1,5 +1,11 @@
 app.controller('manageController', ['$scope', '$http', function ($scope, $http) {
 
+  io.socket.get('/api/v1/actions', function (data) {
+    console.log('LISTA DE ACTIONS', data)
+    $scope.actions = data;
+    $scope.$apply();
+  })
+
   io.socket.get('/api/v1/users', function (data) {
     $scope.users = data;
     $scope.$apply();
@@ -12,17 +18,6 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
 
   io.socket.get('/api/v1/webhooks', function (data) {
     $scope.webhooks = data;
-    $scope.$apply();
-  })
-
-  /**Socket para os Actions
-   * 
-   * @description :: Estabelecendo conexão socket para as ACTIONS
-   * @returns :: Array
-   */
-  io.socket.get('/api/v1/actions', function (data) {
-    console.log('LISTA DE ACTIONS', data)
-    $scope.actions = data;
     $scope.$apply();
   })
 
