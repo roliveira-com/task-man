@@ -12,29 +12,22 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
 
   io.socket.get('/api/v1/webhooks', function (data) {
     $scope.webhooks = data;
-    console.log($scope.webhooks);
     $scope.$apply();
   })
 
+  /**Socket para os Actions
+   * 
+   * @description :: Estabelecendo conexão socket para as ACTIONS
+   * @returns :: Array
+   */
+  io.socket.get('/api/v1/actions', function (data) {
+    console.log('LISTA DE ACTIONS', data)
+    $scope.actions = data;
+    $scope.$apply();
+  })
 
-  $scope.deleteUser = function (itemId) {
-    $http.post('/api/v1/user/delete', { id: itemId }).then(function (response) {
-      $scope.notification = response.data;
-    }).catch(function (error) {
-      $scope.notification = error.data;
-    })
-  }
-
-  $scope.deleteSession = function (itemId) {
-    $http.post('/api/v1/session/delete', { id: itemId }).then(function (response) {
-      $scope.notification = response.data;
-    }).catch(function (error) {
-      $scope.notification = error.data;
-    })
-  }
-
-  $scope.deleteWebhook = function (itemId) {
-    $http.post('/api/v1/webhook/delete', { id: itemId }).then(function (response) {
+  $scope.delete = function (model,itemId) {
+    $http.post(`/api/v1/${model}/delete`, { id: itemId }).then(function (response) {
       $scope.notification = response.data;
     }).catch(function (error) {
       $scope.notification = error.data;
@@ -111,6 +104,31 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
         });
         $scope.webhooks.splice(deleted, 1);
         $scope.webhooks.push(event.data);
+        $scope.$apply()
+        break;
+    }
+  })
+
+  io.socket.on('action', function (event) {
+    console.log('Events Action', event);
+    switch (event.verb) {
+      case 'created':
+        $scope.actions.push(event.data);
+        $scope.$apply();
+        break;
+      case 'destroyed':
+        var deleted = $scope.actions.findIndex(function (element, index, array) {
+          if (element.id === event.previous.id) return element;
+        });
+        $scope.actions.splice(deleted, 1);
+        $scope.$apply()
+        break;
+      case 'updated':
+        var deleted = $scope.actions.findIndex(function (element, index, array) {
+          if (element.id === event.id) return element;
+        });
+        $scope.actions.splice(deleted, 1);
+        $scope.actions.push(event.data);
         $scope.$apply()
         break;
     }

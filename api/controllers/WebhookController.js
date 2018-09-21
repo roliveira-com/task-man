@@ -117,7 +117,9 @@ module.exports = {
           modelId: req.param('id'),
           action: req.body
         })
-        .then(() => {
+        .fetch()
+        .then(action => {
+          sails.sockets.blast('action', {verb:"created", id: action.id, data: action});
           sails.log('UMA ACTION FOI GRAVADA')
         })
         .catch(erro => {
