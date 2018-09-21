@@ -17,6 +17,10 @@ module.exports = {
 
   manageWebhooks: function(req, res){
     res.view('pages/tasks/management/webhooks')
+  },
+
+  manageActions: function(req, res){
+    res.view('pages/tasks/management/actions')
   }
 
 }

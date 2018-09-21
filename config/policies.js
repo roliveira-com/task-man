@@ -16,7 +16,8 @@ module.exports.policies = {
 
     manageSessions  : 'isAdmin',
     manageUsers     : 'isAdmin',
-    manageWebhooks  : 'isAdmin'
+    manageWebhooks  : 'isAdmin',
+    manageActions   : 'isAdmin'
 
   },
 

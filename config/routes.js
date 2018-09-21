@@ -66,6 +66,11 @@ module.exports.routes = {
     action: 'manageWebhooks',
   },
 
+  'GET /manage/actions': {
+    controller: 'ManageController',
+    action: 'manageActions',
+  },
+
   /**
    * Rotas da API
    */
@@ -95,6 +100,11 @@ module.exports.routes = {
     controller: 'AuthController',
     action: 'deleteSession',
     csrf: true
+  },
+
+  'GET /api/v1/actions': {
+    controller: 'ActionController',
+    action: 'getActions',
   },
 
   'GET /api/v1/webhooks': {

@@ -35,7 +35,7 @@
           <td>{{session.owner.username}}</td>
           <td>{{session.createdAt | date: 'd/M/yyyy h:mm'}}</td>
           <td>
-            <button class="button is-danger" ng-click="deleteSession(session.id)"><span class="delete is-medium"></span></button>
+            <button class="button is-danger" ng-click="delete('session',session.id)"><span class="delete is-medium"></span></button>
           </td>
         </tr>
       </tbody>
