@@ -23,22 +23,20 @@
     <table class="table is-fullwidth" ng-controller="manageController">
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Lista/Card Relacionado</th>
-          <th>URL de callback</th>
-          <th>Criação do webhook</th>
-          <th>Actions</th>
+          <th>Responsável</th>
+          <th>Data</th>
+          <th>Tipo</th>
+          <th>Categoria</th>
+          <th>Trello ID</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="webhook in webhooks" ng-cloak>
-          <td><span class="icon-type list"></span></td>
-          <td>{{webhook.targetListModel.name || 'Não foi possível obter'}}</td>
-          <td class="td-text-overflow">{{webhook.callbackURL}}</td>          
-          <td>{{webhook.createdAt | date: 'd/M/yyyy hh:mm'}}</td>
-          <td>
-            <button class="button is-danger" ng-click="delete('webhook',webhook.id)"><span class="delete is-medium"></span></button>
-          </td>
+        <tr ng-repeat="action in actions" ng-cloak>
+          <td>{{ action.action.action.memberCreator.fullName }}</td>
+          <td>{{ action.action.action.date  | date: 'd/M/yyyy hh:mm' }}</td>          
+          <td>{{ action.action.action.type }}</td>
+          <td>{{ action.action.action.display.translationKey }}</td>
+          <td>{{ action.action.action.id }}</td>
         </tr>
       </tbody>
     </table>

@@ -18,6 +18,10 @@
   width: 100%;
 }
 
+.table td{
+  vertical-align: middle;
+}
+
 .dropdown-trigger button span::after{
   border: 3px solid transparent;
   border-radius: 2px;
@@ -123,4 +127,59 @@
 .auth-screen__container{
   position: relative;
   top: 25%;
+}
+
+.td-text-overflow{
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.td-text-overflow::after{
+  background-color: white;
+  content: "";
+  display: block;
+  height: 100%;
+  right: 0;
+  position: absolute;
+  width: 30px;
+}
+
+.td-text-overflow::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+.td-text-overflow::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+/* Handle */
+.td-text-overflow::-webkit-scrollbar-thumb {
+  background: rgb(197, 197, 197); 
+}
+
+/* Handle on hover */
+.td-text-overflow::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.icon-type{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+  background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+}
+
+.icon-type.list{
+  background-image: url(/images/list.png)
+} 
+
+.icon-type.card{
+  background-image: url(/images/card.png)
 }

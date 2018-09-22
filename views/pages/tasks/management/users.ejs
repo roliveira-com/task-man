@@ -1,3 +1,4 @@
+<%- exposeLocalsToBrowser() %>
 <%- partial('../../../layouts/header') %>
 
 <div class="hero is-warning">
@@ -36,7 +37,7 @@
           <td>{{user.username}}</td>
           <td>{{user.email}}</td>
           <td>
-            <button class="button is-danger" ng-click="deleteUser(user.id)"><span class="delete is-medium"></span></button>
+            <button class="button is-danger" ng-click="delete('user', user.id)"><span class="delete is-medium"></span></button>
           </td>
         </tr>
       </tbody>

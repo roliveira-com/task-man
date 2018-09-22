@@ -51,11 +51,11 @@ module.exports = {
       "HMAC-SHA1"
     );
     
-    if(!inputs.request.session.oauth){
+    if(!inputs.request.session.token.oauth){
       throw 'noAuth';
     }
 
-    oauth.getProtectedResource(inputs.url, "POST", inputs.request.session.oauth.accessToken, inputs.request.session.oauth.accessTokenSecret, function(error, data, response){
+    oauth.getProtectedResource(inputs.url, "POST", inputs.request.session.token.oauth.accessToken, inputs.request.session.token.oauth.accessTokenSecret, function(error, data, response){
       const resource = {
         error    : error,
         data     : data,

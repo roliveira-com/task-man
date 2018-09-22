@@ -56,7 +56,6 @@ module.exports = {
     }
 
     oauth.getProtectedResource(inputs.url, "GET", inputs.request.session.token.oauth.accessToken, inputs.request.session.token.oauth.accessTokenSecret, function(error, data, response){
-      sails.log('OBJETO TOKEN DA SESSÃO DE USUARIO NO METODO getProtectedResource() ', inputs.request.session.token)
       const resource = {
         error    : error,
         data     : data,

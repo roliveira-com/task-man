@@ -8,9 +8,11 @@
 module.exports = {
 
   getWebhooks: function (req, res) {
-    Webhook.find()
-      .then(lists => {
-        res.status(200).send(lists);
+    Webhook.find({sort: 'createdAt DESC'})
+      .populate('targetListModel')
+      .populate('targetCardModel')
+      .then(webhooks => {
+        return res.status(200).json(webhooks);
       })
       .catch(error => {
         res.status(500).send({
@@ -21,10 +23,16 @@ module.exports = {
   },
 
   deleteWebhook: function (req, res) {
-    Webhook.destroy({ id: req.body.id })
+    Webhook.destroy({
+        id: req.body.id
+      })
       .fetch()
       .then(webhook => {
-        sails.sockets.blast('webhook', { verb: "destroyed", id: webhook.id, previous: webhook });
+        sails.sockets.blast('webhook', {
+          verb: "destroyed",
+          id: webhook.id,
+          previous: webhook
+        });
         res.status(200).send({
           error: false,
           message: 'Webhook deletado com sucesso'
@@ -53,76 +61,90 @@ module.exports = {
 
   subscribe: async function (req, res) {
 
-    async function fetchingAndSavingCards(req) {
+      async function fetchingAndSavingCards(req) {
 
-      try{
-        await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel);
-      }catch(error){
-        sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error)
+        try {
+          await sails.helpers.fetchCards(req, req.body.modelId, req.body.targetListModel);
+        } catch (error) {
+          sails.log('ERRO EM OBTER/SALVAR CARDS DO TRELLO NA BASE TASK-MAN', error)
+        }
+
       }
-      
+
+      // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=${sails.config.custom.webhookCallback}/${req.body.targetListModel}`)
+      sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://roliveira-taskman.herokuapp.com/webhooks/${req.body.targetListModel}`)
+        .then(response => {
+          if (response.error) {
+            sails.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
+            res.status(500).send({
+              error: response.error,
+              message: 'Não foi possível inscrever a lista agora, tente mais tarde'
+            });
+            return;
+          };
+
+          fetchingAndSavingCards(req);
+
+          let webhookModel = JSON.parse(response.data);
+
+          sails.helpers.webhookCreate(req, webhookModel).then(webhook => {
+              sails.log('WEBHOOK CRIADO COM SUCESSO NA API DO TRELLO', webhook.data)
+              res.status(201).send({
+                error: false,
+                data: webhook.data
+              })
+            })
+            .catch(error => {
+              sails.log('ERRO NO CADASTRO DO WEBHOOK NA BASE', error);
+              res.status(500).send({
+                error: true,
+                data: error.data,
+                message: 'O cadastro do webhook foi feito no Trello mas não em nossa base'
+              })
+            })
+        });
+
+    },
+
+    callback: function (req, res) {
+      /**
+       * A URL a ser configurada no hosts deve ser: /tasks/webhook/:id
+       */
+      console.log('ID DO WEBHOOK NA BASE LOCAL', req.param('id'));
+      console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
+
+      Action.create({
+          modelId: req.param('id'),
+          action: req.body
+        })
+        .fetch()
+        .then(action => {
+          sails.sockets.blast('action', {verb:"created", id: action.id, data: action});
+          sails.log('UMA ACTION FOI GRAVADA')
+        })
+        .catch(erro => {
+          sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
+        })
+
+      res.status(200).send({
+        error: false,
+        data: 'ok'
+      })
+
+      // let action = req.body.model.type;
+
+      // switch (action) {
+      //     case 'createCard':
+      //         Action.create({
+      //             modelId : req.param('id'),
+      //             model   : req.body.model
+      //         })
+      //         .catch(erro => {
+      //             sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
+      //         })
+      //         break;
+      // }
+
     }
 
-    // sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=${sails.config.custom.webhookCallback}/${req.body.targetListModel}`)
-    sails.helpers.oauthPostData(req, `https://api.trello.com/1/webhooks/?idModel=${req.body.modelId}&description=${req.body.description}"&callbackURL=https://roliveira-taskman.herokuapp.com/webhooks/${req.body.targetListModel}`)
-    .then(response => {
-      if (response.error) {
-        sails.log('ERRO NO POST DO WEBHOOK NA API DO TRELLO', response.error)
-        res.status(500).send({ error: response.error, message: 'Não foi possível inscrever a lista agora, tente mais tarde' });  
-        return;
-      };
-
-      fetchingAndSavingCards(req);
-      
-      let webhookModel = JSON.parse(response.data);
-      
-      sails.helpers.webhookCreate(req, webhookModel).then(webhook => {
-        sails.log('WEBHOOK CRIADO COM SUCESSO NA API DO TRELLO', webhook.data)
-        res.status(201).send({error:false, data:webhook.data})
-      })
-      .catch(error => {
-        sails.log('ERRO NO CADASTRO DO WEBHOOK NA BASE', error);
-        res.status(500).send({error:true,data:error.data,message: 'O cadastro do webhook foi feito no Trello mas não em nossa base'})
-      })
-    });
-
-  },
-
-  callback: function (req, res) {
-    /**
-     * A URL a ser configurada no hosts deve ser: /tasks/webhook/:id
-     */
-    console.log('ID DO WEBHOOK NA BASE LOCAL', req.param('id'));
-    console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
-
-    Action.create({
-        modelId : req.param('id'),
-        action   : req.body
-    })
-    .then(() => {
-        sails.log('UMA ACTION FOI GRAVADA')
-    })
-    .catch(erro => {
-        sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
-    })
-
-    res.status(200).send({error: false, data: 'ok'})
-
-    // let action = req.body.model.type;
-
-    // switch (action) {
-    //     case 'createCard':
-    //         Action.create({
-    //             modelId : req.param('id'),
-    //             model   : req.body.model
-    //         })
-    //         .catch(erro => {
-    //             sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
-    //         })
-    //         break;
-    // }
-
-  }
-
 };
-
