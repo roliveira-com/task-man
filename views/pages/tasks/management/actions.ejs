@@ -32,7 +32,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="action in actions" ng-cloak>
-          <td>{{ action.action.memberCreator.fullName }}</td>
+          <td>{{ action.action.action.memberCreator.fullName }}</td>
           <td>{{ action.action.action.date  | date: 'd/M/yyyy hh:mm' }}</td>          
           <td>{{ action.action.action.type }}</td>
           <td>{{ action.action.action.display.translationKey }}</td>

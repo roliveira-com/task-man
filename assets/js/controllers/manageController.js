@@ -108,7 +108,7 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
     console.log('Events Action', event);
     switch (event.verb) {
       case 'created':
-        $scope.actions.push(event.data);
+        $scope.actions.unshift(event.data);
         $scope.$apply();
         break;
       case 'destroyed':
