@@ -166,6 +166,12 @@
   background: #555; 
 }
 
+.td-img-avatar{
+  border-radius: 50%;
+  margin-right: 10px;
+  width: 45px;
+}
+
 .icon-type{
   display: inline-block;
   width: 30px;
