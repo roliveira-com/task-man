@@ -106,29 +106,33 @@ module.exports = {
 
     },
 
-    callback: function (req, res) {
+    callback: async function (req, res) {
       /**
        * A URL a ser configurada no hosts deve ser: /tasks/webhook/:id
        */
       console.log('ID DO WEBHOOK NA BASE LOCAL', req.param('id'));
       console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
 
-      Action.create({
-          modelId: req.param('id'),
-          action: req.body
-        })
-        .fetch()
-        .then(action => {
-          sails.sockets.blast('action', {verb:"created", id: action.id, data: action});
-          sails.log('UMA ACTION FOI GRAVADA')
-        })
-        .catch(erro => {
-          sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
-        })
+      let processo = await sails.helpers.actionCreateCard(req, req.body.action.action, req.param('id'))
+
+      console.log(processo)
+
+      // Action.create({
+      //     modelId: req.param('id'),
+      //     action: req.body
+      //   })
+      //   .fetch()
+      //   .then(action => {
+      //     sails.sockets.blast('action', {verb:"created", id: action.id, data: action});
+      //     sails.log('UMA ACTION FOI GRAVADA')
+      //   })
+      //   .catch(erro => {
+      //     sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
+      //   })
 
       res.status(200).send({
         error: false,
-        data: 'ok'
+        data: processo
       })
 
       // let action = req.body.model.type;
