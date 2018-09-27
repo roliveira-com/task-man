@@ -113,9 +113,14 @@ module.exports = {
       console.log('ID DO WEBHOOK NA BASE LOCAL', req.param('id'));
       console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
 
-      let processo = await sails.helpers.actionCreateCard(req, req.body.action.action, req.param('id'))
+      let processo = null,
+          action = req.body.action.action.type
 
-      console.log(processo)
+      switch (action) {
+        case 'createCard':
+          processo = await sails.helpers.actionCreateCard(req, req.body.action.action, req.param('id'))
+          break;
+      }
 
       // Action.create({
       //     modelId: req.param('id'),
@@ -130,10 +135,7 @@ module.exports = {
       //     sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
       //   })
 
-      res.status(200).send({
-        error: false,
-        data: processo
-      })
+      res.status(200).send(processo)
 
       // let action = req.body.model.type;
 

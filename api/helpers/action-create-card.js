@@ -44,10 +44,9 @@ module.exports = {
 
 
   fn: async (inputs, exits) => {
-
     let url = `https://api.trello.com/1/cards/${inputs.action.data.card.id}`;
 
-    let list = await List.find({ id: inputs.modelId }).catch(error => {
+    let list = await List.findOne({ id: inputs.modelId }).catch(error => {
       sails.log('ERRO AO OBTER WEBHOOK RELACIONADO NA BASE')
       throw error;
     })
@@ -59,42 +58,36 @@ module.exports = {
 
     let card = JSON.parse(reponsecard.data);
 
-    // console.log(card)
+    if (!list || list.length == 0) return exits.success({error: true, message: 'modelId não encontrado na base'});
 
-    // Card.create({
-    //   title: card
-    // })
-
-    // _.forEach(listOfCards, function (card) {
-    //   _.forEach(card.idMembers, function (member) {
-    //     if (member === inputs.request.session.user.trello_id) {
-    //       Card.create({
-    //         title: card.name,
-    //         list_id: inputs.listId,
-    //         model_id: inputs.modelId,
-    //         short_url: card.shortUrl,
-    //         id_checklist: card.idChecklist,
-    //         due: card.due || '',
-    //         due_complete: card.dueComplete || '',
-    //         labels: card.labels,
-    //         owner: inputs.request.session.user.id
-    //       })
-    //         .fetch()
-    //         .then(card => {
-    //           sails.log(`CARD ${card.id} CRIADO COM SUCESSO`)
-    //         })
-    //         .catch(error => {
-    //           sails.log('NAO FOI POSSIVEL CRIAR ESTE CARD NA BASE', error);
-    //         })
-    //     };
-    //   });
-    // });
-
-    return exits.success({
-      error: false,
-      card: card,
-      list: list
-    });
+    Card.create({
+      title: card.name,
+      list_id: list.id,
+      model_id: inputs.modelId,
+      short_url: card.shortUrl,
+      id_checklist: card.idChecklist,
+      due: card.due || '',
+      due_complete: card.dueComplete || '',
+      labels: card.labels,
+      owner: inputs.request.session.user.id
+    })
+    .fetch()
+    .then(card => {
+      sails.log(`CARD ${card.id} CRIADO COM SUCESSO`)
+      return exits.success({
+        error: false,
+        card: card.id,
+        list: list.id
+      });
+    })
+    .catch(error => {
+      sails.log('NAO FOI POSSIVEL CRIAR ESTE CARD NA BASE', error);
+      return exits.success({
+        error: false,
+        card: card.id,
+        list: list.id
+      });
+    })
 
   }
 
