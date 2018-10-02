@@ -42,7 +42,6 @@ module.exports = {
 
   sync: false,
  
-
   fn: async (inputs, exits) => {
     let url = `https://api.trello.com/1/cards/${inputs.action.data.card.id}`;
 
@@ -50,11 +49,6 @@ module.exports = {
       sails.log('ERRO AO OBTER WEBHOOK RELACIONADO NA BASE')
       throw error;
     })
-
-    // let reponsecard = await sails.helpers.oauthGetResource(inputs.request, url).catch(error => {
-    //   sails.log('ERRO AO OBTER CARDS NO TRELLO', error)
-    //   throw error;
-    // })
 
     if (!list || list.length == 0) {
       sails.log('A lista informada provavelmente não pertence a este usuário');
