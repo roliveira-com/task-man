@@ -114,7 +114,11 @@ module.exports = {
       console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
 
       let processo = null,
-          action = req.body.action.type
+          action = null;
+
+      if(req.body){
+        action = req.body.action.type || 'none';
+      }
 
       switch (action) {
         case 'createCard':
