@@ -57,8 +57,8 @@ module.exports = {
 
   session: {
 
-    adapter: '@sailshq/connect-redis',
-    url: process.env.REDIS_URL,
+    // adapter: '@sailshq/connect-redis',
+    // url: process.env.REDIS_URL,
     cookie: {
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,  // 24 hours
@@ -68,8 +68,8 @@ module.exports = {
 
   sockets: {
 
-    adapter: '@sailshq/socket.io-redis',
-    url: process.env.REDIS_URL,
+    // adapter: '@sailshq/socket.io-redis',
+    // url: process.env.REDIS_URL,
 
   },
 
