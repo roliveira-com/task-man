@@ -43,8 +43,7 @@ module.exports = {
   sync: false,
  
   fn: async (inputs, exits) => {
-    let url = `https://api.trello.com/1/cards/${inputs.action.data.card.id}`;
-    let requis = inputs.request;
+    let url = `https://api.trello.com/1/cards/${inputs.action.data.card.id}`
 
     let list = await List.findOne({ id: inputs.modelId }).catch(error => {
       sails.log('ERRO AO OBTER WEBHOOK RELACIONADO NA BASE')
@@ -56,18 +55,13 @@ module.exports = {
       return exits.success('OK');
     }
 
-    sails.log('Objeto token na criação do cartão: ', inputs.request.session.token)
-    sails.log('Objeto Customizado token na criação do cartão: ', requis.session.token)
+    let auths = await Session.findOne({owner:list.owner})
 
-    sails.helpers.oauthGetResource(requis, url)
+    sails.log('Objeto token na criação do cartão: ', auths)
+
+    TrelloService.getCard(auths,inputs.action.data.card.id)
       .then(resp => {
-        if (resp.error) {
-          sails.log('O Card informado provavelmente não pertence ao usuário');
-          return exits.success('OK');
-        }
-
-        let card = JSON.parse(resp.data)
-
+        let card = JSON.parse(resp)
         Card.create({
           title: card.name,
           list_id: list.id,
@@ -89,10 +83,44 @@ module.exports = {
           return exits.success('OK');
         })
       })
-      .catch(error => {
-        sails.log('Não foi possivel consultar o Trello para obter este card');
-        throw error;
+      .catch(error =>{
+        sails.log('ERRO NO GET DO CARD DO TRELLO: ', error);
       })
+
+    // sails.helpers.oauthGetResource(requis, url)
+    //   .then(resp => {
+    //     if (resp.error) {
+    //       sails.log('O Card informado provavelmente não pertence ao usuário');
+    //       return exits.success('OK');
+    //     }
+
+    //     let card = JSON.parse(resp.data)
+
+    //     Card.create({
+    //       title: card.name,
+    //       list_id: list.id,
+    //       model_id: inputs.modelId,
+    //       short_url: card.shortUrl,
+    //       id_checklist: card.idChecklist,
+    //       due: card.due || '',
+    //       due_complete: card.dueComplete || '',
+    //       labels: card.labels,
+    //       owner: inputs.request.session.user.id
+    //     })
+    //     .fetch()
+    //     .then(card => {
+    //       sails.log(`CARD ${card.id} CRIADO COM SUCESSO`)
+    //       return exits.success('OK');
+    //     })
+    //     .catch(error => {
+    //       sails.log('NAO FOI POSSIVEL CRIAR ESTE CARD NA BASE', error);
+    //       return exits.success('OK');
+    //     })
+    //   })
+    //   .catch(error => {
+    //     sails.log('Não foi possivel consultar o Trello para obter este card');
+    //     throw error;
+    //   })
 
   }
 
