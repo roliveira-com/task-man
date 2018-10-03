@@ -56,7 +56,7 @@ module.exports = {
       throw 'noAuth';
     }
 
-    oauth.getProtectedResource(inputs.url, "GET", token.oauth.accessToken, oauth.accessTokenSecret, function(error, data, response){
+    oauth.getProtectedResource(inputs.url, "GET", inputs.token.oauth.accessToken, inputs.token.oauth.accessTokenSecret, function(error, data, response){
       const resource = {
         error    : error,
         data     : data,
