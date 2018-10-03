@@ -114,11 +114,11 @@ module.exports = {
       console.log('OBJETO POST NO CALLBACK DO TRELLO', req.body);
 
       let processo = null,
-          action = req.body.action.action.type
+          action = req.body.action.type
 
       switch (action) {
         case 'createCard':
-          processo = await sails.helpers.actionCreateCard(req, req.body.action.action, req.param('id'))
+          processo = await sails.helpers.actionCreateCard(req, req.body.action, req.param('id'))
           break;
       }
 
