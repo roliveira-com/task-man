@@ -44,6 +44,7 @@ module.exports = {
  
   fn: async (inputs, exits) => {
     let url = `https://api.trello.com/1/cards/${inputs.action.data.card.id}`;
+    let requis = inputs.request;
 
     let list = await List.findOne({ id: inputs.modelId }).catch(error => {
       sails.log('ERRO AO OBTER WEBHOOK RELACIONADO NA BASE')
@@ -55,7 +56,10 @@ module.exports = {
       return exits.success('OK');
     }
 
-    sails.helpers.oauthGetResource(inputs.request, url)
+    sails.log('Objeto token na criação do cartão: ', inputs.request.session.token)
+    sails.log('Objeto Customizado token na criação do cartão: ', requis.session.token)
+
+    sails.helpers.oauthGetResource(requis, url)
       .then(resp => {
         if (resp.error) {
           sails.log('O Card informado provavelmente não pertence ao usuário');
