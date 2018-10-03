@@ -102,7 +102,7 @@ module.exports = {
           due: card.due || '',
           due_complete: card.dueComplete || '',
           labels: card.labels,
-          owner: inputs.request.session.user.id
+          owner: list.owner
         })
         .fetch()
         .then(card => {
