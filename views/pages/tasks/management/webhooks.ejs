@@ -18,9 +18,12 @@
   </div>
 </div>
 
-<section class="section">
+<section class="section" ng-controller="manageController">
   <div class="container">
-    <table class="table is-fullwidth" ng-controller="manageController">
+    <button class="button" ng-click="postWebhook()">Enviar Webhook</button>
+  </div>
+  <div class="container">
+    <table class="table is-fullwidth">
       <thead>
         <tr>
           <th>Type</th>
