@@ -34,7 +34,7 @@ module.exports = {
 
   models: {
 
-    migrate: 'safe',
+    migrate: 'drop',
     cascadeOnDestroy: false,
 
   },

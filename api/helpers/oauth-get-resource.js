@@ -38,7 +38,6 @@ module.exports = {
 
   sync: false,
 
-
   fn: async function (inputs, exits) {
 
     const oauth = new OAuth(
