@@ -103,11 +103,8 @@ module.exports = {
   },
 
   logout: function (req, res) {
-    req.session.destroy(err => {
-      setTimeout(() => {
-        res.redirect('/')
-      }, 2000)
-    });
+    req.session = null;
+    res.redirect('/')
   }
 
 };
