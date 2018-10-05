@@ -56,7 +56,7 @@ module.exports = {
 
     sails.log('Objeto token na criação do cartão: ', auths);
 
-    // TrelloService.getCard(auths,inputs.action.data.card.id)
+    // TrelloService.getCards(auths, inputs.action.data.card.id)
     //   .then(resp => {
     //     let card = JSON.parse(resp)
     //     Card.create({
@@ -68,7 +68,7 @@ module.exports = {
     //       due: card.due || '',
     //       due_complete: card.dueComplete || '',
     //       labels: card.labels,
-    //       owner: inputs.request.session.user.id
+    //       owner: list.owner
     //     })
     //     .fetch()
     //     .then(card => {

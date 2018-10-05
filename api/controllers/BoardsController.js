@@ -58,7 +58,7 @@ module.exports = {
   },
 
   getTrelloBoards: function (req, res) {
-    sails.helpers.oauthGetResource(req, `https://api.trello.com/1/members/${req.session.user.trello_id}/boards`).then(response => {
+    sails.helpers.oauthGetResource(req, `https://api.trello.com/1/members/me/boards`).then(response => {
       if (response.error) return res.status(500).send({ error: response.error });
       res.status(200).send(response.data);
     }).catch(error => {

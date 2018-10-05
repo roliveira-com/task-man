@@ -22,7 +22,7 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
           card: {
             shortLink: "onN7RtUX",
             idShort: 7,
-            name: "Cartãozinho novo",
+            name: "Novo Cartão",
             id: "5ba59d3fc5c2f51b0dcfa4bc"
           }
         },
