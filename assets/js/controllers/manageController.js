@@ -75,7 +75,8 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
         data: {
           listAfter: {
               name: "Em andamento",
-              id: "th151s4f4k31dn0t43ll0"
+              // id: "th151s4f4k31dn0t43ll0" // movendo para lista Todo
+              id:"597a36afb42d277bb9e51fec" // movendo para lista backlog
           },
           listBefore: {
               name: "A fazer",
@@ -272,7 +273,8 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
   $scope.postWebhook = function () {
     // $http.post('/webhooks/5baca5ccb3573a1c57fe0ab5', $scope.fakeAction)
     // $http.post('/webhooks/5ba36dd06e4c3814ec4ee0d3', $scope.fakeAction) //existe
-    $http.post('/webhooks/5b20260b35ab48687c3d578e', $scope.moveCard)
+    // $http.post('/webhooks/5b20260b35ab48687c3d578e', $scope.moveCard) //movendo para a lista ToDo
+    $http.post('/webhooks/5ba41e45694869380668f7d9', $scope.moveCard) //movendo para lista backlog
       .then(function (resp) {
         console.log(resp)
       })
