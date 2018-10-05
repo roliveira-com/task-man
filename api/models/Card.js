@@ -21,6 +21,10 @@ module.exports = {
       type: 'string'
     },
 
+    trello_id: {
+      type: 'string'
+    },
+
     short_url: {
       type: 'string'
     },

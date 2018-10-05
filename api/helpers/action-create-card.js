@@ -95,6 +95,7 @@ module.exports = {
 
         Card.create({
           title: card.name,
+          trello_id: card.id,
           list_id: list.id,
           model_id: inputs.modelId,
           short_url: card.shortUrl,
