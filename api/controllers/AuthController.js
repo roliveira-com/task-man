@@ -87,7 +87,7 @@ module.exports = {
           res.redirect('/');
           return;
         } else {
-          Session.find({ owner: user.id }).then(session => {
+          Session.find({ owner: user[0].id }).then(session => {
             req.session.user = user[0]
             req.session.token = session[0]
             res.redirect('/');
@@ -103,8 +103,6 @@ module.exports = {
   },
 
   logout: function (req, res) {
-    req.session.me = null;
-    req.session.token = null;
     req.session.destroy();
     res.redirect('/')
   }
