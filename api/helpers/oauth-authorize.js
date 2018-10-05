@@ -63,7 +63,7 @@ module.exports = {
 
       inputs.request.session.oauth[token] = tokenSecret;
 
-      inputs.response.redirect(`${sails.config.custom.trelloAuthorizeURL}?scope=read,write,account&oauth_token=${token}&name=${sails.config.trelloAppName}`);
+      inputs.response.redirect(`${sails.config.custom.trelloAuthorizeURL}?scope=read,write,account&oauth_token=${token}&name=${sails.config.custom.trelloAppName}`);
 
       return exits.success();
     });

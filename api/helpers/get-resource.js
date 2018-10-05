@@ -10,7 +10,7 @@ module.exports = {
 
   inputs: {
 
-    request:{
+    token:{
       type: 'ref',
       required: true
     },
@@ -50,15 +50,13 @@ module.exports = {
       "HMAC-SHA1"
     );
 
-    sails.log('Objeto Token: ', inputs.request.session.token);
+    sails.log('Objeto Token: ', inputs.token);
     
-    if(!inputs.request.session.token){
+    if(!inputs.token){
       throw 'noAuth';
     }
 
-    ActionService.testService();
-
-    oauth.getProtectedResource(inputs.url, "GET", inputs.request.session.token.oauth.accessToken, inputs.request.session.token.oauth.accessTokenSecret, function(error, data, response){
+    oauth.getProtectedResource(inputs.url, "GET", inputs.token.oauth.accessToken, inputs.token.oauth.accessTokenSecret, function(error, data, response){
       const resource = {
         error    : error,
         data     : data,

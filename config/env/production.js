@@ -79,7 +79,7 @@ module.exports = {
 
   http: {
 
-    cache: 5 * 24 * 60 * 60 * 1000, // Five Days
+    cache: 24 * 60 * 60 * 1000, // 1 Day
     trustProxy: true,
 
   },

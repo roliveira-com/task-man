@@ -43,19 +43,48 @@ module.exports = {
   sync: false,
  
   fn: async (inputs, exits) => {
-    let url = `https://api.trello.com/1/cards/${inputs.action.data.card.id}`;
+    let url = `https://api.trello.com/1/cards/${inputs.action.data.card.id}`
 
-    let list = await List.findOne({ id: inputs.modelId }).catch(error => {
-      sails.log('ERRO AO OBTER WEBHOOK RELACIONADO NA BASE')
-      throw error;
-    })
+    let list = await List.findOne({ id: inputs.modelId });
 
     if (!list || list.length == 0) {
       sails.log('A lista informada provavelmente não pertence a este usuário');
       return exits.success('OK');
     }
 
-    sails.helpers.oauthGetResource(inputs.request, url)
+    let auths = await Session.findOne({owner:list.owner})
+
+    sails.log('Objeto token na criação do cartão: ', auths);
+
+    // TrelloService.getCards(auths, inputs.action.data.card.id)
+    //   .then(resp => {
+    //     let card = JSON.parse(resp)
+    //     Card.create({
+    //       title: card.name,
+    //       list_id: list.id,
+    //       model_id: inputs.modelId,
+    //       short_url: card.shortUrl,
+    //       id_checklist: card.idChecklist,
+    //       due: card.due || '',
+    //       due_complete: card.dueComplete || '',
+    //       labels: card.labels,
+    //       owner: list.owner
+    //     })
+    //     .fetch()
+    //     .then(card => {
+    //       sails.log(`CARD ${card.id} CRIADO COM SUCESSO`)
+    //       return exits.success('OK');
+    //     })
+    //     .catch(error => {
+    //       sails.log('NAO FOI POSSIVEL CRIAR ESTE CARD NA BASE', error);
+    //       return exits.success('OK');
+    //     })
+    //   })
+    //   .catch(error =>{
+    //     sails.log('ERRO NO GET DO CARD DO TRELLO: ', error);
+    //   })
+
+    sails.helpers.getResource(auths, url)
       .then(resp => {
         if (resp.error) {
           sails.log('O Card informado provavelmente não pertence ao usuário');
@@ -73,7 +102,7 @@ module.exports = {
           due: card.due || '',
           due_complete: card.dueComplete || '',
           labels: card.labels,
-          owner: inputs.request.session.user.id
+          owner: list.owner
         })
         .fetch()
         .then(card => {
