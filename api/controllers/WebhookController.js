@@ -124,18 +124,18 @@ module.exports = {
           break;
       }
 
-      // Action.create({
-      //     modelId: req.param('id'),
-      //     action: req.body
-      //   })
-      //   .fetch()
-      //   .then(action => {
-      //     sails.sockets.blast('action', {verb:"created", id: action.id, data: action});
-      //     sails.log('UMA ACTION FOI GRAVADA')
-      //   })
-      //   .catch(erro => {
-      //     sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
-      //   })
+      Action.create({
+          modelId: req.param('id'),
+          action: req.body
+        })
+        .fetch()
+        .then(action => {
+          sails.sockets.blast('action', {verb:"created", id: action.id, data: action});
+          sails.log('UMA ACTION FOI GRAVADA')
+        })
+        .catch(erro => {
+          sails.log('ERRO AO GRAVAR A ACTION NO BANCO', erro);
+        })
 
       res.status(200).send(processo)
 
