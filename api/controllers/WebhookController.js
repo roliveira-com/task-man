@@ -112,7 +112,6 @@ module.exports = {
           action = null;
 
       if(req.body){
-        console.log(req.body.action)
         action = req.body.action.type || 'none';
       }
       

@@ -36,10 +36,10 @@ module.exports = {
         let listBefore  = inputs.request.param('id');
         sails.log('ID DA LISTA ORIGINAL NA BASE TASK MAN'  , listBefore)
 
-        let listAfter = await Webhook.findOne({ idModel: inputs.action.action.data.listAfter.id });
+        let listAfter = await Webhook.findOne({ idModel: inputs.action.data.listAfter.id });
         sails.log('ID DA NOVA LISTA NA BASE TASK MAN', listAfter.targetListModel)
 
-        let card = await Card.findOne({ trello_id: inputs.action.action.data.card.id })
+        let card = await Card.findOne({ trello_id: inputs.action.data.card.id })
         sails.log('ID DO CARD NA BASE LOCAL', card.id)
 
         if(listBefore && listAfter && card){
