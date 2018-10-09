@@ -54,36 +54,6 @@ module.exports = {
 
     let auths = await Session.findOne({owner:list.owner})
 
-    sails.log('Objeto token na criação do cartão: ', auths);
-
-    // TrelloService.getCards(auths, inputs.action.data.card.id)
-    //   .then(resp => {
-    //     let card = JSON.parse(resp)
-    //     Card.create({
-    //       title: card.name,
-    //       list_id: list.id,
-    //       model_id: inputs.modelId,
-    //       short_url: card.shortUrl,
-    //       id_checklist: card.idChecklist,
-    //       due: card.due || '',
-    //       due_complete: card.dueComplete || '',
-    //       labels: card.labels,
-    //       owner: list.owner
-    //     })
-    //     .fetch()
-    //     .then(card => {
-    //       sails.log(`CARD ${card.id} CRIADO COM SUCESSO`)
-    //       return exits.success('OK');
-    //     })
-    //     .catch(error => {
-    //       sails.log('NAO FOI POSSIVEL CRIAR ESTE CARD NA BASE', error);
-    //       return exits.success('OK');
-    //     })
-    //   })
-    //   .catch(error =>{
-    //     sails.log('ERRO NO GET DO CARD DO TRELLO: ', error);
-    //   })
-
     sails.helpers.getResource(auths, url)
       .then(resp => {
         if (resp.error) {
@@ -94,15 +64,16 @@ module.exports = {
         let card = JSON.parse(resp.data)
 
         Card.create({
-          title: card.name,
-          list_id: list.id,
-          model_id: inputs.modelId,
-          short_url: card.shortUrl,
-          id_checklist: card.idChecklist,
-          due: card.due || '',
-          due_complete: card.dueComplete || '',
-          labels: card.labels,
-          owner: list.owner
+          title         : card.name,
+          trello_id     : card.id,
+          list_id       : list.id,
+          model_id      : inputs.modelId,
+          short_url     : card.shortUrl,
+          id_checklist  : card.idChecklist,
+          due           : card.due || '',
+          due_complete  : card.dueComplete || '',
+          labels        : card.labels,
+          owner         : list.owner
         })
         .fetch()
         .then(card => {

@@ -49,8 +49,6 @@ module.exports = {
       sails.config.custom.trelloLoginCallback, 
       "HMAC-SHA1"
     );
-
-    sails.log('Objeto Token: ', inputs.token);
     
     if(!inputs.token){
       throw 'noAuth';

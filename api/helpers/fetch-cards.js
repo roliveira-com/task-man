@@ -4,7 +4,7 @@ module.exports = {
   friendlyName: 'Cards no Trello',
 
 
-  description: 'Busca os cards no trello relacionados a detrrminada lista e os salva na base Task-Man',
+  description: 'Busca os cards no trello relacionados a determinada lista e os salva na base Task-Man',
 
 
   inputs: {
@@ -61,6 +61,7 @@ module.exports = {
           Card.create({
             title        : card.name,
             list_id      : inputs.listId,
+            trello_id    : card.id,
             model_id     : inputs.modelId,
             short_url    : card.shortUrl,
             id_checklist : card.idChecklist,

@@ -63,6 +63,84 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
     }
   }
 
+  $scope.moveCard = {
+    createdAt: 1537580351275,
+    updatedAt: 1537580351275,
+    id: "5ba59d3f8c33d1001449a2d7",
+    modelId: "5ba4eba42093690014b20380",
+    action: {
+      action: {
+        id: "5ba59d3fc5c2f51b0dcfa4bd",
+        idMemberCreator: "5af6d594bab718857fb4945e",
+        data: {
+          listAfter: {
+              name: "Em andamento",
+              // id: "th151s4f4k31dn0t43ll0" // movendo para lista Todo
+              id:"597a36afb42d277bb9e51fec" // movendo para lista backlog
+          },
+          listBefore: {
+              name: "A fazer",
+              id: "5af6d595844047db7c2441db"
+          },
+          board: {
+              shortLink: "xpoHeCiH",
+              name: "Things to Do",
+              id: "5af6d595844047db7c2441da"
+          },
+          card: {
+              shortLink: "0h0HlAjz",
+              idShort: 1,
+              name: "Do thing number 1",
+              id: "1d551354654352121",
+              idList: "5af6d595844047db7c2441dc"
+          },
+          old: {
+              "idList": "5af6d595844047db7c2441db"
+          }
+        },
+        type: "updateCard",
+        date: "2018-09-22T01:39:11.180Z",
+        limits: {},
+        display: {
+          translationKey: "action_move_card_from_list_to_list",
+          entities: {
+            card: {
+                type: "card",
+                idList: "5af6d595844047db7c2441dc",
+                id: "5b20e7f3542cacf57f0ea29a",
+                shortLink: "0h0HlAjz",
+                text: "Do thing number 1"
+            },
+            listBefore: {
+                type: "list",
+                id: "5af6d595844047db7c2441db",
+                text: "A fazer"
+            },
+            listAfter: {
+                type: "list",
+                id: "5af6d595844047db7c2441dc",
+                text: "Em andamento"
+            },
+            memberCreator: {
+                type: "member",
+                id: "5af6d594bab718857fb4945e",
+                username: "gennesimmons",
+                text: "Genne Simmons"
+            }
+          }
+        },
+        memberCreator: {
+          id: "5af6d594bab718857fb4945e",
+          avatarHash: "9104391328e32c24b15bee8274511555",
+          avatarUrl: "https://trello-avatars.s3.amazonaws.com/9104391328e32c24b15bee8274511555",
+          fullName: "Genne Simmons",
+          initials: "GS",
+          username: "gennesimmons"
+        }
+      }
+    }
+  }
+
   io.socket.get('/api/v1/actions', function (data) {
     console.log('LISTA DE ACTIONS', data)
     $scope.actions = data;
@@ -194,7 +272,9 @@ app.controller('manageController', ['$scope', '$http', function ($scope, $http) 
   
   $scope.postWebhook = function () {
     // $http.post('/webhooks/5baca5ccb3573a1c57fe0ab5', $scope.fakeAction)
-    $http.post('/webhooks/5ba36dd06e4c3814ec4ee0d3', $scope.fakeAction) //existe
+    // $http.post('/webhooks/5ba36dd06e4c3814ec4ee0d3', $scope.fakeAction) //existe
+    // $http.post('/webhooks/5b20260b35ab48687c3d578e', $scope.moveCard) //movendo para a lista ToDo
+    $http.post('/webhooks/5ba41e45694869380668f7d9', $scope.moveCard) //movendo para lista backlog
       .then(function (resp) {
         console.log(resp)
       })
